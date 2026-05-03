@@ -288,15 +288,10 @@ Tested on **Windows 10** with Git Bash. All hooks use POSIX-compatible patterns 
 
 ---
 
-## Supporting This Project
 
-The IMC Lab is free and open source. If it saves you time or helps you ship your game, consider supporting continued development:
+- **Learn about [xrA1](https://imclab.github.io/xra1/landing.html)
 
 
-<p>
-Learn about [xrA1](https://imclab.github.io/xra1/landing.html)
-
-</p>
 
 ---
 
