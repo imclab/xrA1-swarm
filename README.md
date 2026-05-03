@@ -20,11 +20,11 @@
 
 ---
 
-## Why This Exists
+## Why - Problem & Solution
 
-Building a game solo with AI is powerful — but a single chat session has no structure. No one stops you from hardcoding magic numbers, skipping design docs, or writing spaghetti code. There's no QA pass, no design review, no one asking "does this actually fit the game's vision?"
+Building an AI agent, orchestrating a swarm - boostrapping your own auto self improving spatial intelligence & simulation workforve & factory in which you can architect, rapid prototype, develop & deploy AI/XR apps, SaaS & PaaS is empowering — a single voice conversation or brsinstorm can start with no structure. While most other systems are brittle & confusing, forgetful & unreliable, allowing agents & devs alike to hardcode arbitrary magic rules & numbers, skipping design docs, spec-driven & test-driven methologies, resulting in bloated spaghetti code that is as black box as the agents and models we usually work with. There's no Real time, visualization, natural voice conversation, no QA pass, no design review, no one asking "does this actually accomplish our lofty vision?"
 
-**The IMC Lab** solves this by giving your AI session the structure of a real studio. Instead of one general-purpose assistant, you get 49 specialized agents organized into a studio hierarchy — directors who guard the vision, department leads who own their domains, and specialists who do the hands-on work. Each agent has defined responsibilities, escalation paths, and quality gates.
+**xrA1** swarm & jARvis (more here solve this by giving your AI session the structure of a real studio. Instead of one general-purpose assistant, you get 49 specialized agents organized into a studio hierarchy — directors who guard the vision, department leads who own their domains, and specialists who do the hands-on work. Each agent has defined responsibilities, escalation paths, and quality gates.
 
 The result: you still make every decision, but now you have a team that asks the right questions, catches mistakes early, and keeps your project organized from first brainstorm to launch.
 
@@ -292,16 +292,11 @@ Tested on **Windows 10** with Git Bash. All hooks use POSIX-compatible patterns 
 
 The IMC Lab is free and open source. If it saves you time or helps you ship your game, consider supporting continued development:
 
+
 <p>
-  <a href="https://www.buymeacoffee.com/imclab"><img src="https://img.shields.io/badge/Buy%20Me%20a%20Coffee-FFDD00?style=for-the-badge&logo=buy-me-a-coffee&logoColor=black" alt="Buy Me a Coffee"></a>
-  &nbsp;
-  <a href="https://github.com/sponsors/imclab"><img src="https://img.shields.io/badge/GitHub%20Sponsors-ea4aaa?style=for-the-badge&logo=githubsponsors&logoColor=white" alt="GitHub Sponsors"></a>
+  <a href="[https://www.buymeacoffee.com/imclab](https://imclab.github.io/xra1/landing.html)">Learn about xrA1</a>
+
 </p>
-
-- **[Buy Me a Coffee](https://www.buymeacoffee.com/imclab)** — one-time support
-- **[GitHub Sponsors](https://github.com/sponsors/imclab)** — recurring support through GitHub
-
-Sponsorships help fund time spent maintaining skills, adding new agents, keeping up with Claude Code and engine API changes, and responding to community issues.
 
 ---
 
