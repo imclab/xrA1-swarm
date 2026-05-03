@@ -294,7 +294,7 @@ The IMC Lab is free and open source. If it saves you time or helps you ship your
 
 
 <p>
-  <a href="[https://www.buymeacoffee.com/imclab](https://imclab.github.io/xra1/landing.html)">Learn about xrA1</a>
+Learn about [xrA1](https://imclab.github.io/xra1/landing.html)
 
 </p>
 
