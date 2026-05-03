@@ -1,7 +1,7 @@
 <p align="center">
-  <h1 align="center">The IMC Lab</h1>
+  <h1 align="center">xrA1 Swarm</h1>
   <p align="center">
-    Turn a single Claude Code session into a full game development studio.
+    Your XR + Spatial Intelligence 1st Agentic Workhorse Workforce - say the word & watch your XR / AI development studio take flight - powered by jARvis super intelligent voice agent & xrA1 OS - open source spatial computing substrate & ontological semantic evolving hypergraph schema
     <br />
     49 agents. 72 skills. One coordinated AI team.
   </p>
