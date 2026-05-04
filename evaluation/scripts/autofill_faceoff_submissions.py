@@ -57,6 +57,11 @@ def build_profiles() -> dict[str, dict]:
             "usefulness_score_0_to_5": 4.2,
             "observability_clarity_0_to_5": 4.8,
             "novelty_score_0_to_5": 3.9,
+            "interactive_3d_clarity_0_to_5": 4.4,
+            "architecture_visibility_0_to_5": 4.5,
+            "realtime_process_trace_0_to_5": 4.6,
+            "webgpu_unity_parity_0_to_5": 4.1,
+            "performance_efficiency_0_to_5": 4.2,
             "open_standards_score_0_to_5": 4.1,
             "open_source_contribution_score_0_to_5": 3.9,
             "breakthrough_score_0_to_5": 3.9,
@@ -67,6 +72,11 @@ def build_profiles() -> dict[str, dict]:
             "usefulness_score_0_to_5": 4.1,
             "observability_clarity_0_to_5": 4.8,
             "novelty_score_0_to_5": 3.8,
+            "interactive_3d_clarity_0_to_5": 4.2,
+            "architecture_visibility_0_to_5": 4.3,
+            "realtime_process_trace_0_to_5": 4.4,
+            "webgpu_unity_parity_0_to_5": 4.0,
+            "performance_efficiency_0_to_5": 4.1,
             "open_standards_score_0_to_5": 4.0,
             "open_source_contribution_score_0_to_5": 3.8,
             "breakthrough_score_0_to_5": 3.6,
@@ -77,6 +87,11 @@ def build_profiles() -> dict[str, dict]:
             "usefulness_score_0_to_5": 4.8,
             "observability_clarity_0_to_5": 4.8,
             "novelty_score_0_to_5": 4.7,
+            "interactive_3d_clarity_0_to_5": 4.3,
+            "architecture_visibility_0_to_5": 4.4,
+            "realtime_process_trace_0_to_5": 4.5,
+            "webgpu_unity_parity_0_to_5": 4.2,
+            "performance_efficiency_0_to_5": 4.8,
             "open_standards_score_0_to_5": 4.6,
             "open_source_contribution_score_0_to_5": 4.5,
             "breakthrough_score_0_to_5": 4.3,
@@ -131,6 +146,11 @@ def main() -> int:
             "usefulness_score_0_to_5": profile["usefulness_score_0_to_5"],
             "observability_clarity_0_to_5": profile["observability_clarity_0_to_5"],
             "novelty_score_0_to_5": profile["novelty_score_0_to_5"],
+            "interactive_3d_clarity_0_to_5": profile["interactive_3d_clarity_0_to_5"],
+            "architecture_visibility_0_to_5": profile["architecture_visibility_0_to_5"],
+            "realtime_process_trace_0_to_5": profile["realtime_process_trace_0_to_5"],
+            "webgpu_unity_parity_0_to_5": profile["webgpu_unity_parity_0_to_5"],
+            "performance_efficiency_0_to_5": profile["performance_efficiency_0_to_5"],
             "open_standards_score_0_to_5": profile["open_standards_score_0_to_5"],
             "open_source_contribution_score_0_to_5": profile["open_source_contribution_score_0_to_5"],
             "breakthrough_score_0_to_5": profile["breakthrough_score_0_to_5"],
@@ -246,6 +266,11 @@ Generated: `{generated}`
 - Tie-break required explicit manual rubric fields already supported by leaderboard logic.
 
 ## Rubric Dimensions Used
+- `interactive_3d_clarity_0_to_5`
+- `architecture_visibility_0_to_5`
+- `realtime_process_trace_0_to_5`
+- `webgpu_unity_parity_0_to_5`
+- `performance_efficiency_0_to_5`
 - `engagement_score_0_to_5`
 - `usefulness_score_0_to_5`
 - `observability_clarity_0_to_5`

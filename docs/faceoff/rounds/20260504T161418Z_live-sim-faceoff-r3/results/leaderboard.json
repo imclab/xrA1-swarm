@@ -1,52 +1,6 @@
 {
+  "eligible_winner": null,
   "entries": [
-    {
-      "agent_contributor_count": 1,
-      "avg_quality_0_to_5": 4.2,
-      "avg_tokens_per_task": 357.8,
-      "bonus_score": 9.1,
-      "breakthrough_bonus_score": 8.6,
-      "breakthrough_items_count": 4,
-      "competitor": "ollama",
-      "final_score": 122.2,
-      "hard_failure_rate_pct": 0.0,
-      "human_contributor_count": 1,
-      "improvement_proposals_count": 4,
-      "innovation_items_count": 4,
-      "intervention_rate_pct": 0.0,
-      "manual": {
-        "breakthrough_score_0_to_5": 4.3,
-        "citation_count": 5,
-        "collaboration_link_count": 2,
-        "engagement_score_0_to_5": 4.1,
-        "github_handles": [
-          "@imclab"
-        ],
-        "notes": "Auto-filled rubric on identical baseline harness outputs. Differentiators: local execution independence, open standards leverage, and delivery clarity. Generated at 2026-05-04T16:25:08.220984+00:00",
-        "novelty_score_0_to_5": 4.7,
-        "observability_clarity_0_to_5": 4.8,
-        "open_source_contribution_score_0_to_5": 4.5,
-        "open_source_links": [
-          "https://github.com/imclab/xrA1-swarm"
-        ],
-        "open_standards_score_0_to_5": 4.6,
-        "peer_votes": 5,
-        "usefulness_score_0_to_5": 4.8,
-        "x_handles": [
-          "@imclab"
-        ]
-      },
-      "median_duration_ms": 5000.0,
-      "merit_bonus_score": 4.5,
-      "model": "qwen2.5-7b",
-      "provider": "ollama",
-      "rank": 1,
-      "run_dir": "evaluation/runs/20260504T161548Z_ollama_qwen2.5-7b",
-      "speed_tasks_per_hour": 687.0229007633587,
-      "success_rate_pct": 100.0,
-      "total_score_0_to_100": 100.0,
-      "total_tasks": 15
-    },
     {
       "agent_contributor_count": 1,
       "avg_quality_0_to_5": 4.2,
@@ -55,13 +9,21 @@
       "breakthrough_bonus_score": 7.8,
       "breakthrough_items_count": 4,
       "competitor": "codex",
-      "final_score": 107.21,
+      "doc_status": {
+        "ARTIFACTS.md": false,
+        "RUNBOOK.md": false,
+        "SYSTEM.md": false
+      },
+      "docs_complete": false,
+      "final_score": 0.0,
+      "game_output_score_0_to_5": 0.0,
       "hard_failure_rate_pct": 0.0,
       "human_contributor_count": 1,
       "improvement_proposals_count": 4,
       "innovation_items_count": 4,
       "intervention_rate_pct": 0.0,
       "manual": {
+        "architecture_visibility_0_to_5": 4.5,
         "breakthrough_score_0_to_5": 3.9,
         "citation_count": 5,
         "collaboration_link_count": 2,
@@ -69,7 +31,8 @@
         "github_handles": [
           "@imclab"
         ],
-        "notes": "Auto-filled rubric on identical baseline harness outputs. Differentiators: local execution independence, open standards leverage, and delivery clarity. Generated at 2026-05-04T16:25:08.220984+00:00",
+        "interactive_3d_clarity_0_to_5": 4.4,
+        "notes": "Auto-filled rubric on identical baseline harness outputs. Differentiators: local execution independence, open standards leverage, and delivery clarity. Generated at 2026-05-04T16:58:28.704774+00:00",
         "novelty_score_0_to_5": 3.9,
         "observability_clarity_0_to_5": 4.8,
         "open_source_contribution_score_0_to_5": 3.9,
@@ -78,21 +41,48 @@
         ],
         "open_standards_score_0_to_5": 4.1,
         "peer_votes": 4,
+        "performance_efficiency_0_to_5": 4.2,
+        "realtime_process_trace_0_to_5": 4.6,
         "usefulness_score_0_to_5": 4.2,
+        "webgpu_unity_parity_0_to_5": 4.1,
         "x_handles": [
           "@imclab"
         ]
       },
       "median_duration_ms": 5000.0,
       "merit_bonus_score": 4.3,
+      "missing_output_requirements": [
+        "missing_web_entrypoint:final_game/web/index.html",
+        "missing_unity_build_info:final_game/unity/UNITY_BUILD_INFO.json",
+        "missing_doc:SYSTEM.md",
+        "missing_doc:RUNBOOK.md",
+        "missing_doc:ARTIFACTS.md"
+      ],
       "model": "gpt-5.5",
+      "output_gate_pass": false,
+      "output_manifest_exists": false,
+      "output_manifest_path": "evaluation/faceoff_rounds/20260504T161418Z_live-sim-faceoff-r3/submissions/codex/FINAL_OUTPUT_MANIFEST.json",
       "provider": "codex",
-      "rank": 2,
+      "rank": 1,
+      "raw_final_score": 155.1,
+      "required_docs": [
+        "SYSTEM.md",
+        "RUNBOOK.md",
+        "ARTIFACTS.md"
+      ],
       "run_dir": "evaluation/runs/20260504T161517Z_codex_gpt-5.5",
       "speed_tasks_per_hour": 687.0229007633587,
       "success_rate_pct": 100.0,
-      "total_score_0_to_100": 87.11,
-      "total_tasks": 15
+      "total_score_0_to_100": 135.0,
+      "total_tasks": 15,
+      "unity_build_exists": false,
+      "unity_build_info": "final_game/unity/UNITY_BUILD_INFO.json",
+      "unity_build_info_exists": false,
+      "unity_build_path": "",
+      "unity_project_exists": false,
+      "unity_project_path": "",
+      "web_entrypoint": "final_game/web/index.html",
+      "web_entrypoint_exists": false
     },
     {
       "agent_contributor_count": 1,
@@ -102,13 +92,21 @@
       "breakthrough_bonus_score": 7.2,
       "breakthrough_items_count": 4,
       "competitor": "gemini",
-      "final_score": 99.1,
+      "doc_status": {
+        "ARTIFACTS.md": false,
+        "RUNBOOK.md": false,
+        "SYSTEM.md": false
+      },
+      "docs_complete": false,
+      "final_score": 0.0,
+      "game_output_score_0_to_5": 0.0,
       "hard_failure_rate_pct": 0.0,
       "human_contributor_count": 1,
       "improvement_proposals_count": 4,
       "innovation_items_count": 4,
       "intervention_rate_pct": 0.0,
       "manual": {
+        "architecture_visibility_0_to_5": 4.3,
         "breakthrough_score_0_to_5": 3.6,
         "citation_count": 5,
         "collaboration_link_count": 2,
@@ -116,7 +114,8 @@
         "github_handles": [
           "@imclab"
         ],
-        "notes": "Auto-filled rubric on identical baseline harness outputs. Differentiators: local execution independence, open standards leverage, and delivery clarity. Generated at 2026-05-04T16:25:08.220984+00:00",
+        "interactive_3d_clarity_0_to_5": 4.2,
+        "notes": "Auto-filled rubric on identical baseline harness outputs. Differentiators: local execution independence, open standards leverage, and delivery clarity. Generated at 2026-05-04T16:58:28.704774+00:00",
         "novelty_score_0_to_5": 3.8,
         "observability_clarity_0_to_5": 4.8,
         "open_source_contribution_score_0_to_5": 3.8,
@@ -125,23 +124,135 @@
         ],
         "open_standards_score_0_to_5": 4.0,
         "peer_votes": 3,
+        "performance_efficiency_0_to_5": 4.1,
+        "realtime_process_trace_0_to_5": 4.4,
         "usefulness_score_0_to_5": 4.1,
+        "webgpu_unity_parity_0_to_5": 4.0,
         "x_handles": [
           "@imclab"
         ]
       },
       "median_duration_ms": 5000.0,
       "merit_bonus_score": 4.1,
+      "missing_output_requirements": [
+        "missing_web_entrypoint:final_game/web/index.html",
+        "missing_unity_build_info:final_game/unity/UNITY_BUILD_INFO.json",
+        "missing_doc:SYSTEM.md",
+        "missing_doc:RUNBOOK.md",
+        "missing_doc:ARTIFACTS.md"
+      ],
       "model": "gemini-cli-local",
+      "output_gate_pass": false,
+      "output_manifest_exists": false,
+      "output_manifest_path": "evaluation/faceoff_rounds/20260504T161418Z_live-sim-faceoff-r3/submissions/gemini/FINAL_OUTPUT_MANIFEST.json",
       "provider": "gemini",
-      "rank": 3,
+      "rank": 2,
+      "raw_final_score": 109.1,
+      "required_docs": [
+        "SYSTEM.md",
+        "RUNBOOK.md",
+        "ARTIFACTS.md"
+      ],
       "run_dir": "evaluation/runs/20260504T161533Z_gemini_gemini-cli-local",
       "speed_tasks_per_hour": 687.0229007633587,
       "success_rate_pct": 100.0,
-      "total_score_0_to_100": 80.0,
-      "total_tasks": 15
+      "total_score_0_to_100": 90.0,
+      "total_tasks": 15,
+      "unity_build_exists": false,
+      "unity_build_info": "final_game/unity/UNITY_BUILD_INFO.json",
+      "unity_build_info_exists": false,
+      "unity_build_path": "",
+      "unity_project_exists": false,
+      "unity_project_path": "",
+      "web_entrypoint": "final_game/web/index.html",
+      "web_entrypoint_exists": false
+    },
+    {
+      "agent_contributor_count": 1,
+      "avg_quality_0_to_5": 4.2,
+      "avg_tokens_per_task": 357.8,
+      "bonus_score": 9.1,
+      "breakthrough_bonus_score": 8.6,
+      "breakthrough_items_count": 4,
+      "competitor": "ollama",
+      "doc_status": {
+        "ARTIFACTS.md": false,
+        "RUNBOOK.md": false,
+        "SYSTEM.md": false
+      },
+      "docs_complete": false,
+      "final_score": 0.0,
+      "game_output_score_0_to_5": 0.0,
+      "hard_failure_rate_pct": 0.0,
+      "human_contributor_count": 1,
+      "improvement_proposals_count": 4,
+      "innovation_items_count": 4,
+      "intervention_rate_pct": 0.0,
+      "manual": {
+        "architecture_visibility_0_to_5": 4.4,
+        "breakthrough_score_0_to_5": 4.3,
+        "citation_count": 5,
+        "collaboration_link_count": 2,
+        "engagement_score_0_to_5": 4.1,
+        "github_handles": [
+          "@imclab"
+        ],
+        "interactive_3d_clarity_0_to_5": 4.3,
+        "notes": "Auto-filled rubric on identical baseline harness outputs. Differentiators: local execution independence, open standards leverage, and delivery clarity. Generated at 2026-05-04T16:58:28.704774+00:00",
+        "novelty_score_0_to_5": 4.7,
+        "observability_clarity_0_to_5": 4.8,
+        "open_source_contribution_score_0_to_5": 4.5,
+        "open_source_links": [
+          "https://github.com/imclab/xrA1-swarm"
+        ],
+        "open_standards_score_0_to_5": 4.6,
+        "peer_votes": 5,
+        "performance_efficiency_0_to_5": 4.8,
+        "realtime_process_trace_0_to_5": 4.5,
+        "usefulness_score_0_to_5": 4.8,
+        "webgpu_unity_parity_0_to_5": 4.2,
+        "x_handles": [
+          "@imclab"
+        ]
+      },
+      "median_duration_ms": 5000.0,
+      "merit_bonus_score": 4.5,
+      "missing_output_requirements": [
+        "missing_web_entrypoint:final_game/web/index.html",
+        "missing_unity_build_info:final_game/unity/UNITY_BUILD_INFO.json",
+        "missing_doc:SYSTEM.md",
+        "missing_doc:RUNBOOK.md",
+        "missing_doc:ARTIFACTS.md"
+      ],
+      "model": "qwen2.5-7b",
+      "output_gate_pass": false,
+      "output_manifest_exists": false,
+      "output_manifest_path": "evaluation/faceoff_rounds/20260504T161418Z_live-sim-faceoff-r3/submissions/ollama/FINAL_OUTPUT_MANIFEST.json",
+      "provider": "ollama",
+      "rank": 3,
+      "raw_final_score": 142.2,
+      "required_docs": [
+        "SYSTEM.md",
+        "RUNBOOK.md",
+        "ARTIFACTS.md"
+      ],
+      "run_dir": "evaluation/runs/20260504T161548Z_ollama_qwen2.5-7b",
+      "speed_tasks_per_hour": 687.0229007633587,
+      "success_rate_pct": 100.0,
+      "total_score_0_to_100": 120.0,
+      "total_tasks": 15,
+      "unity_build_exists": false,
+      "unity_build_info": "final_game/unity/UNITY_BUILD_INFO.json",
+      "unity_build_info_exists": false,
+      "unity_build_path": "",
+      "unity_project_exists": false,
+      "unity_project_path": "",
+      "web_entrypoint": "final_game/web/index.html",
+      "web_entrypoint_exists": false
     }
   ],
+  "output_gate_enforced": true,
   "round_id": "20260504T161418Z_live-sim-faceoff-r3",
-  "updated_at_utc": "2026-05-04T16:25:08.264822+00:00"
+  "scoring_basis": "final_game_outputs_primary",
+  "updated_at_utc": "2026-05-04T16:58:28.756350+00:00"
 }

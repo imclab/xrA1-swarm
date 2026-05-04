@@ -25,6 +25,8 @@ system that:
 1. Plays back its own creation/execution approach.
 2. Plays back other competitors' approaches.
 3. Supports live collaborative viewing and creation activity.
+4. Provides an interactive 3D visualization of code architecture and agentic
+   generation flow in real time.
 
 ## 3. Required Targets
 
@@ -42,6 +44,8 @@ system that:
 ## 5. Hard Constraints
 
 - Per competitor round budget: `10 minutes` or less.
+- Final output must be fully playable by buzzer; incomplete output is ineligible
+  and scored as zero.
 - No `claude` / `anthropic` provider usage in this fork.
 - All work remains isolated on this fork/branch.
 - Less is more: prefer fewer lines, fewer API calls, fewer tokens, less compute.
@@ -54,9 +58,11 @@ system that:
 
 Scoring must combine:
 
+- Final output completeness first (real game/simulation deliverables).
+- Interactive 3D visualization clarity.
+- Architecture visibility and real-time process trace quality.
+- WebGPU and Unity parity of the delivered experience.
 - Reliability: success and failure behavior.
-- Intelligence/quality.
-- Speed.
 - Efficiency (tokens/compute/API calls).
 - Observability clarity.
 - Engagement + usefulness.
@@ -90,6 +96,12 @@ Round Orchestrator
 - `evaluation/runs/<run_id>/results.jsonl`
 - `evaluation/runs/<run_id>/agent_events.jsonl`
 - `evaluation/faceoff_rounds/<round_id>/submissions/<competitor>/SUBMISSION_METRICS.json`
+- `evaluation/faceoff_rounds/<round_id>/submissions/<competitor>/FINAL_OUTPUT_MANIFEST.json`
+- `evaluation/faceoff_rounds/<round_id>/submissions/<competitor>/final_game/web/index.html`
+- `evaluation/faceoff_rounds/<round_id>/submissions/<competitor>/final_game/unity/UNITY_BUILD_INFO.json`
+- `evaluation/faceoff_rounds/<round_id>/submissions/<competitor>/SYSTEM.md`
+- `evaluation/faceoff_rounds/<round_id>/submissions/<competitor>/RUNBOOK.md`
+- `evaluation/faceoff_rounds/<round_id>/submissions/<competitor>/ARTIFACTS.md`
 - `evaluation/faceoff_rounds/<round_id>/submissions/<competitor>/CREDITS.json`
 - `evaluation/faceoff_rounds/<round_id>/submissions/<competitor>/CITATIONS.md`
 - `evaluation/faceoff_rounds/<round_id>/results/leaderboard.json`
@@ -111,6 +123,7 @@ Every meaningful task step must log:
 - `why`: reason/intent
 
 No round is complete without replayable time-based records.
+No competitor is eligible to win without required final output artifacts.
 
 ## 10. Countdown and Urgency UX
 
@@ -155,12 +168,15 @@ creativity, and efficiency compound over time.
 ## 13. Round Lifecycle
 
 1. Bootstrap round scaffold.
-2. Run competitor executions in defined order.
-3. Record run metrics and agent event timelines.
-4. Generate competitor final reports and bird's-eye timeline views.
-5. Compile leaderboard and declare winner.
-6. Append round outcome to historical registry.
-7. Publish latest improved version to this branch and GitHub Pages.
+2. Run kickoff gate (`~T-08:00`).
+3. Run halfway gate (`~T-05:00`).
+4. Run competitor executions in defined order.
+5. Record run metrics and agent event timelines.
+6. Generate competitor final reports and bird's-eye timeline views.
+7. Run strict final gate at buzzer (`T-00:00`).
+8. Compile leaderboard and declare winner.
+9. Append round outcome to historical registry.
+10. Publish latest improved version to this branch and GitHub Pages.
 
 ## 14. Future Extension Rules
 

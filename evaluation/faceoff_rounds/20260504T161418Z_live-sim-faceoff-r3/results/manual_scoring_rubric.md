@@ -1,12 +1,17 @@
 # Manual Scoring Rubric (20260504T161418Z_live-sim-faceoff-r3)
 
-Generated: `2026-05-04T16:25:08.220984+00:00`
+Generated: `2026-05-04T16:58:28.704774+00:00`
 
 ## Why Auto-Fill Was Needed
 - Base harness outputs were identical on reliability, speed, token, and quality metrics.
 - Tie-break required explicit manual rubric fields already supported by leaderboard logic.
 
 ## Rubric Dimensions Used
+- `interactive_3d_clarity_0_to_5`
+- `architecture_visibility_0_to_5`
+- `realtime_process_trace_0_to_5`
+- `webgpu_unity_parity_0_to_5`
+- `performance_efficiency_0_to_5`
 - `engagement_score_0_to_5`
 - `usefulness_score_0_to_5`
 - `observability_clarity_0_to_5`

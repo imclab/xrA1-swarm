@@ -21,12 +21,14 @@ Scope of Phase 0:
 - `scripts/run_full_pass.py`: executes all baseline scenarios with consistent telemetry.
 - `scripts/generate_final_report.py`: creates one high-visibility report for a run.
 - `scripts/bootstrap_faceoff_round.py`: creates a new competitor round scaffold.
-- `scripts/compile_faceoff_leaderboard.py`: scores competitor runs for a round.
+- `scripts/compile_faceoff_leaderboard.py`: scores competitor runs for a round (final output gate: web + Unity + docs).
 - `scripts/update_faceoff_history.py`: aggregates completed rounds into history logs.
 - `scripts/generate_recognition_assets.py`: emits badges/social/recognition registry.
 - `scripts/export_timeline_interchange.py`: emits canonical/XRAI/Rerun-compatible timeline bundle.
 - `scripts/round_countdown.py`: countdown cues for CI/terminal urgency tracking.
 - `scripts/build_faceoff_site.py`: builds static faceoff hub (`docs/faceoff`) for GitHub Pages.
+- `scripts/validate_final_outputs.py`: checkpoint/final gate validation for shipped deliverables.
+- `scripts/run_round_gates.py`: timed kickoff/halfway/final gate runner over the round window.
 - `runs/`: local run artifacts (ignored except `.gitkeep`).
 - `reports/`: generated summary reports (ignored except `.gitkeep`).
 
@@ -137,7 +139,33 @@ python3 evaluation/scripts/round_countdown.py --minutes 10 --label "ROUND"
 python3 evaluation/scripts/build_faceoff_site.py \
   --rounds-root evaluation/faceoff_rounds \
   --site-root docs/faceoff
+
+# Optional timed gate monitor for kickoff/halfway/final checks
+python3 evaluation/scripts/run_round_gates.py \
+  --round-dir "$ROUND_DIR" \
+  --minutes 10
 ```
+
+Final output gate requirements (per competitor):
+- `submissions/<competitor>/final_game/web/index.html`
+- `submissions/<competitor>/final_game/unity/UNITY_BUILD_INFO.json`
+- `submissions/<competitor>/SYSTEM.md`
+- `submissions/<competitor>/RUNBOOK.md`
+- `submissions/<competitor>/ARTIFACTS.md`
+
+Primary judged dimensions for finals:
+- interactive 3D visualization clarity
+- real-time architecture/process visibility
+- WebGPU/Unity parity
+- efficiency and reliability support metrics
+
+`compile_faceoff_leaderboard.py` sets `final_score=0` when required final outputs
+are missing (unless explicitly overridden with `--no-output-gate`).
+
+Checkpoint recommendations:
+- kickoff gate around `T-08:00`
+- halfway gate around `T-05:00`
+- strict final gate at `T-00:00`
 
 Open standards/open source and breakthrough discovery are bonus-scored in the
 leaderboard when `SUBMISSION_METRICS.json` includes:

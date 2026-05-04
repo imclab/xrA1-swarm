@@ -57,6 +57,11 @@ ROUND_DIR=$(ls -1dt evaluation/faceoff_rounds/*_live-sim-faceoff | head -n 1)
 # Optional CI/live urgency timer:
 python3 evaluation/scripts/round_countdown.py --minutes 10 --label "ROUND"
 
+# Optional timed milestone gate runner (kickoff/halfway/final)
+python3 evaluation/scripts/run_round_gates.py \
+  --round-dir "$ROUND_DIR" \
+  --minutes 10
+
 # 3) Compile leaderboard
 python3 evaluation/scripts/compile_faceoff_leaderboard.py \
   --round-dir "$ROUND_DIR" \
@@ -79,6 +84,11 @@ python3 evaluation/scripts/export_timeline_interchange.py --run-dir "$OLLRUN"
 python3 evaluation/scripts/build_faceoff_site.py \
   --rounds-root evaluation/faceoff_rounds \
   --site-root docs/faceoff
+
+# 8) Final explicit gate validation (must pass for winner eligibility)
+python3 evaluation/scripts/validate_final_outputs.py \
+  --round-dir "$ROUND_DIR" \
+  --checkpoint final
 ```
 
 ## Visibility Requirements

@@ -1,0 +1,11 @@
+{
+  "build_path": "",
+  "launch_steps": [],
+  "notes": "Set either `project_path` or `build_path` to a real artifact.",
+  "project_path": "",
+  "status": "incomplete",
+  "target_platforms": [
+    "ios"
+  ],
+  "verified_on": []
+}

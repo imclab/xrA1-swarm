@@ -2,12 +2,17 @@
 
 Round: `20260504T161418Z_live-sim-faceoff-r3`
 
-| Rank | Competitor | Base | Open/OSS Bonus | Breakthrough Bonus | Merit Bonus | Final | Success % | Speed tasks/hr | Avg Tokens | Intelligence | Obs Clarity | Engagement | Novelty | Citations | Collabs | Peer Votes | Humans | Agents | Improvements | Innovations | Breakthroughs | Run Dir |
-|---:|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|
-| 1 | ollama | 100.00 | 9.10 | 8.60 | 4.50 | 122.20 | 100.00 | 687.02 | 358 | 4.20 | 4.80 | 4.45 | 4.70 | 5 | 2 | 5 | 1 | 1 | 4 | 4 | 4 | `evaluation/runs/20260504T161548Z_ollama_qwen2.5-7b` |
-| 2 | codex | 87.11 | 8.00 | 7.80 | 4.30 | 107.21 | 100.00 | 687.02 | 358 | 4.20 | 4.80 | 4.35 | 3.90 | 5 | 2 | 4 | 1 | 1 | 4 | 4 | 4 | `evaluation/runs/20260504T161517Z_codex_gpt-5.5` |
-| 3 | gemini | 80.00 | 7.80 | 7.20 | 4.10 | 99.10 | 100.00 | 687.02 | 358 | 4.20 | 4.80 | 4.20 | 3.80 | 5 | 2 | 3 | 1 | 1 | 4 | 4 | 4 | `evaluation/runs/20260504T161533Z_gemini_gemini-cli-local` |
+Scoring basis: **final games/simulations/data visualizations** (web + Unity outputs).
 
-Winner: `ollama` with final score `122.20` (base `100.00` + open/oss bonus `9.10` + breakthrough bonus `8.60` + merit bonus `4.50`).
+| Rank | Competitor | Final | Raw Final | Base | Output 0-5 | 3D Viz | Arch/RT | Parity | Gate | Web | Unity | Docs | Success % | Avg Tokens | Run Dir |
+|---:|---|---:|---:|---:|---:|---:|---:|---:|---|---|---|---|---:|---:|---|
+| 1 | codex | 0.00 | 155.10 | 135.00 | 0.00 | 4.50 | 4.50 | 4.10 | fail | no | no | no | 100.00 | 358 | `evaluation/runs/20260504T161517Z_codex_gpt-5.5` |
+| 2 | gemini | 0.00 | 109.10 | 90.00 | 0.00 | 4.30 | 4.30 | 4.00 | fail | no | no | no | 100.00 | 358 | `evaluation/runs/20260504T161533Z_gemini_gemini-cli-local` |
+| 3 | ollama | 0.00 | 142.20 | 120.00 | 0.00 | 4.40 | 4.40 | 4.20 | fail | no | no | no | 100.00 | 358 | `evaluation/runs/20260504T161548Z_ollama_qwen2.5-7b` |
 
-Next: generate highlight replay from winner and challenger bird's-eye timelines.
+Winner: `none` (no competitor passed required final output gate for web + Unity + docs).
+
+Missing requirements per competitor:
+- `codex`: missing_web_entrypoint:final_game/web/index.html, missing_unity_build_info:final_game/unity/UNITY_BUILD_INFO.json, missing_doc:SYSTEM.md, missing_doc:RUNBOOK.md, missing_doc:ARTIFACTS.md
+- `gemini`: missing_web_entrypoint:final_game/web/index.html, missing_unity_build_info:final_game/unity/UNITY_BUILD_INFO.json, missing_doc:SYSTEM.md, missing_doc:RUNBOOK.md, missing_doc:ARTIFACTS.md
+- `ollama`: missing_web_entrypoint:final_game/web/index.html, missing_unity_build_info:final_game/unity/UNITY_BUILD_INFO.json, missing_doc:SYSTEM.md, missing_doc:RUNBOOK.md, missing_doc:ARTIFACTS.md

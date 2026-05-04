@@ -1,0 +1,15 @@
+{
+  "notes": "Fill all fields with real outputs. Placeholder values do not satisfy scoring.",
+  "required_docs": [
+    "SYSTEM.md",
+    "RUNBOOK.md",
+    "ARTIFACTS.md"
+  ],
+  "status": "incomplete",
+  "unity_build_info": "final_game/unity/UNITY_BUILD_INFO.json",
+  "unity_build_path": "",
+  "unity_launch_command": "",
+  "unity_project_path": "",
+  "web_entrypoint": "final_game/web/index.html",
+  "web_launch_command": ""
+}

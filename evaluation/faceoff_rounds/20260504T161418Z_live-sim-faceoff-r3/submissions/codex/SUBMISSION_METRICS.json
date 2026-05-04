@@ -1,4 +1,5 @@
 {
+  "architecture_visibility_0_to_5": 4.5,
   "breakthrough_evidence": [
     "20260504T161418Z_live-sim-faceoff-r3:codex:all-15-scenarios-pass",
     "20260504T161418Z_live-sim-faceoff-r3:codex:birdseye-generated",
@@ -20,7 +21,8 @@
   "github_handles": [
     "@imclab"
   ],
-  "notes": "Auto-filled rubric on identical baseline harness outputs. Differentiators: local execution independence, open standards leverage, and delivery clarity. Generated at 2026-05-04T16:25:08.220984+00:00",
+  "interactive_3d_clarity_0_to_5": 4.4,
+  "notes": "Auto-filled rubric on identical baseline harness outputs. Differentiators: local execution independence, open standards leverage, and delivery clarity. Generated at 2026-05-04T16:58:28.704774+00:00",
   "novelty_score_0_to_5": 3.9,
   "observability_clarity_0_to_5": 4.8,
   "open_source_contribution_score_0_to_5": 3.9,
@@ -29,7 +31,10 @@
   ],
   "open_standards_score_0_to_5": 4.1,
   "peer_votes": 4,
+  "performance_efficiency_0_to_5": 4.2,
+  "realtime_process_trace_0_to_5": 4.6,
   "usefulness_score_0_to_5": 4.2,
+  "webgpu_unity_parity_0_to_5": 4.1,
   "x_handles": [
     "@imclab"
   ]
