@@ -1,0 +1,60 @@
+name: faceoff-pages
+
+on:
+  push:
+    branches:
+      - codemini-isolated
+    paths:
+      - evaluation/**
+      - docs/migration/**
+      - .github/workflows/faceoff-pages.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: faceoff-pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    if: github.ref == 'refs/heads/codemini-isolated'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Build Faceoff Site
+        run: |
+          python3 evaluation/scripts/build_faceoff_site.py \
+            --rounds-root evaluation/faceoff_rounds \
+            --site-root docs/faceoff
+          touch docs/faceoff/.nojekyll
+
+      - name: Upload Pages Artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: docs/faceoff
+
+  deploy:
+    if: github.ref == 'refs/heads/codemini-isolated'
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

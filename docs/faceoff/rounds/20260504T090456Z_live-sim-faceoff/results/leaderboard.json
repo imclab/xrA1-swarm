@@ -1,0 +1,47 @@
+{
+  "entries": [
+    {
+      "agent_contributor_count": 0,
+      "avg_quality_0_to_5": 4.2,
+      "avg_tokens_per_task": 357.8,
+      "bonus_score": 0.0,
+      "breakthrough_bonus_score": 0.0,
+      "breakthrough_items_count": 0,
+      "competitor": "codex",
+      "final_score": 100.0,
+      "hard_failure_rate_pct": 0.0,
+      "human_contributor_count": 0,
+      "improvement_proposals_count": 0,
+      "innovation_items_count": 0,
+      "intervention_rate_pct": 0.0,
+      "manual": {
+        "breakthrough_score_0_to_5": 0.0,
+        "citation_count": 0,
+        "collaboration_link_count": 0,
+        "engagement_score_0_to_5": 0.0,
+        "github_handles": [],
+        "notes": "",
+        "novelty_score_0_to_5": 0.0,
+        "observability_clarity_0_to_5": 0.0,
+        "open_source_contribution_score_0_to_5": 0.0,
+        "open_source_links": [],
+        "open_standards_score_0_to_5": 0.0,
+        "peer_votes": 0,
+        "usefulness_score_0_to_5": 0.0,
+        "x_handles": []
+      },
+      "median_duration_ms": 5000.0,
+      "merit_bonus_score": 0.0,
+      "model": "gpt-5.5",
+      "provider": "codex",
+      "rank": 1,
+      "run_dir": "evaluation/runs/20260504T081306Z_codex_gpt-5.5",
+      "speed_tasks_per_hour": 687.0229007633587,
+      "success_rate_pct": 100.0,
+      "total_score_0_to_100": 100.0,
+      "total_tasks": 15
+    }
+  ],
+  "round_id": "20260504T090456Z_live-sim-faceoff",
+  "updated_at_utc": "2026-05-04T09:23:10.062238+00:00"
+}

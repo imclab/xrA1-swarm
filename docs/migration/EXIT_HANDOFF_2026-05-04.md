@@ -21,6 +21,7 @@ Scope: isolated fork only (`xrA1-swarm-codemini`)
    - viewer countdown + sound cues
    - CI/terminal countdown cues
 6. Added seed + handoff docs and historical aggregation.
+7. Added static faceoff hub build path for branch-scoped GitHub Pages.
 
 ## Latest Round Artifacts
 
@@ -54,4 +55,5 @@ cd /Users/jamestunick/Applications/xrA1-swarm-codemini
 python3 evaluation/scripts/bootstrap_faceoff_round.py --name live-sim-faceoff
 ROUND_DIR=$(ls -1dt evaluation/faceoff_rounds/*_live-sim-faceoff | head -n 1)
 python3 evaluation/scripts/round_countdown.py --minutes 10 --label "ROUND"
+python3 evaluation/scripts/build_faceoff_site.py --rounds-root evaluation/faceoff_rounds --site-root docs/faceoff
 ```

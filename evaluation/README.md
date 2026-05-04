@@ -26,6 +26,7 @@ Scope of Phase 0:
 - `scripts/generate_recognition_assets.py`: emits badges/social/recognition registry.
 - `scripts/export_timeline_interchange.py`: emits canonical/XRAI/Rerun-compatible timeline bundle.
 - `scripts/round_countdown.py`: countdown cues for CI/terminal urgency tracking.
+- `scripts/build_faceoff_site.py`: builds static faceoff hub (`docs/faceoff`) for GitHub Pages.
 - `runs/`: local run artifacts (ignored except `.gitkeep`).
 - `reports/`: generated summary reports (ignored except `.gitkeep`).
 
@@ -131,6 +132,11 @@ python3 evaluation/scripts/update_faceoff_history.py
 python3 evaluation/scripts/generate_recognition_assets.py --round-dir "$ROUND_DIR"
 python3 evaluation/scripts/export_timeline_interchange.py --run-dir "$CODERUN"
 python3 evaluation/scripts/round_countdown.py --minutes 10 --label "ROUND"
+
+# Build static faceoff hub for branch-scoped GitHub Pages deployment
+python3 evaluation/scripts/build_faceoff_site.py \
+  --rounds-root evaluation/faceoff_rounds \
+  --site-root docs/faceoff
 ```
 
 Open standards/open source and breakthrough discovery are bonus-scored in the

@@ -1,0 +1,18 @@
+{
+  "edges": [],
+  "nodes": [
+    {
+      "id": "codex",
+      "type": "competitor"
+    },
+    {
+      "id": "gemini",
+      "type": "competitor"
+    },
+    {
+      "id": "ollama",
+      "type": "competitor"
+    }
+  ],
+  "round_id": "20260504T093652Z_live-sim-faceoff-r2"
+}

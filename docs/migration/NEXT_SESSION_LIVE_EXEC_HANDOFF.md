@@ -74,6 +74,11 @@ python3 evaluation/scripts/generate_recognition_assets.py --round-dir "$ROUND_DI
 python3 evaluation/scripts/export_timeline_interchange.py --run-dir "$CODERUN"
 python3 evaluation/scripts/export_timeline_interchange.py --run-dir "$GEMRUN"
 python3 evaluation/scripts/export_timeline_interchange.py --run-dir "$OLLRUN"
+
+# 7) Build static faceoff hub used by GitHub Pages
+python3 evaluation/scripts/build_faceoff_site.py \
+  --rounds-root evaluation/faceoff_rounds \
+  --site-root docs/faceoff
 ```
 
 ## Visibility Requirements
@@ -95,6 +100,6 @@ For every competitor submission:
 
 1. Commit updated artifacts and docs on this branch.
 2. Push this branch (never `main`).
-3. Publish/update GitHub Pages for this branch.
+3. Publish/update GitHub Pages for this branch (workflow: `faceoff-pages`).
 4. Trigger next round invitation workflow.
 5. Re-run leaderboard + history update after new submissions.

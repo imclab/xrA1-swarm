@@ -1,0 +1,85 @@
+{
+  "autonomy_policy": {
+    "full_autonomy_within_guardrails": true,
+    "must_not_violate": [
+      "legal",
+      "ethical",
+      "security",
+      "financial_controls"
+    ]
+  },
+  "bonus_policy": {
+    "breakthrough_discovery_max_points": 10,
+    "description": "Additional recognition for open standards/open source and tangible breakthroughs.",
+    "open_standards_and_open_source_max_points": 10
+  },
+  "competitors": [
+    "codex",
+    "gemini",
+    "ollama"
+  ],
+  "compounding_policy": {
+    "must_capture_innovations": true,
+    "must_capture_system_improvements": true,
+    "must_feed_history_backlog": true
+  },
+  "countdown_policy": {
+    "audio_cues": {
+      "buzzer": true,
+      "final_three_minutes": true,
+      "halfway": true,
+      "start": true
+    },
+    "display_all_clients": [
+      "web",
+      "mobile",
+      "desktop",
+      "headset",
+      "ci"
+    ],
+    "enabled": true
+  },
+  "created_at_utc": "2026-05-04T09:36:52.448667+00:00",
+  "execution_order": [
+    "codex",
+    "gemini",
+    "ollama"
+  ],
+  "objective": "Live simulation faceoff with transparent what/when/where/why playback.",
+  "provider_policy": {
+    "allowed_examples": [
+      "codex",
+      "gemini",
+      "ollama",
+      "lmstudio"
+    ],
+    "claude_blocked": true
+  },
+  "round_id": "20260504T093652Z_live-sim-faceoff-r2",
+  "scoring_weights": {
+    "efficiency_tokens_inverse": 0.15,
+    "engagement_usefulness": 0.1,
+    "intelligence_quality": 0.2,
+    "novelty": 0.1,
+    "observability_clarity": 0.1,
+    "reliability_success_rate": 0.2,
+    "speed_tasks_per_hour": 0.15
+  },
+  "technology_policy": {
+    "any_stack_allowed": true,
+    "examples": [
+      "2d_to_3d_prototyping",
+      "custom_shaders",
+      "vfx_graph",
+      "gaussian_splats",
+      "livekit",
+      "webrtc",
+      "open_source_modules"
+    ],
+    "preferred_stacks": [
+      "unity",
+      "webgpu"
+    ]
+  },
+  "time_limit_minutes": 10
+}
