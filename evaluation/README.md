@@ -144,6 +144,9 @@ python3 evaluation/scripts/build_faceoff_site.py \
 python3 evaluation/scripts/run_round_gates.py \
   --round-dir "$ROUND_DIR" \
   --minutes 10
+
+# If you want lower alert volume for a round:
+# --start-elapsed-sec 0 --midpush-elapsed-sec 0
 ```
 
 Final output gate requirements (per competitor):

@@ -62,6 +62,9 @@ python3 evaluation/scripts/run_round_gates.py \
   --round-dir "$ROUND_DIR" \
   --minutes 10
 
+# Lower-noise mode (disable extra nudges):
+# --start-elapsed-sec 0 --midpush-elapsed-sec 0
+
 # 3) Compile leaderboard
 python3 evaluation/scripts/compile_faceoff_leaderboard.py \
   --round-dir "$ROUND_DIR" \
