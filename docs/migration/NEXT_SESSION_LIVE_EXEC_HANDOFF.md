@@ -132,14 +132,6 @@ Use this brief when the goal is rapid prototype speed, not a full faceoff:
 
 - [Unity prototype launch card](./UNITY_PROTO_LAUNCH_CARD.md)
 
-- Build a playable Unity prototype first.
-- Keep the web layer optional and minimal.
-- Do not wait for check-ins to continue.
-- Do not ask the user for extra detail unless the build is blocked by missing
-  information that cannot be inferred locally.
-- Prefer one clear scene, one interaction loop, and one visible success state.
-- Stop when there is a runnable artifact, then document the delta.
-
 ## Visibility Requirements
 
 For every competitor submission:
