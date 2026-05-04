@@ -74,10 +74,13 @@ Build the most engaging and useful simulation + data visualization that can:
 - Documented and extensible architecture.
 - Full autonomy within legal, ethical, security, and financial guardrails.
 - Final output must be fully playable by buzzer; incomplete output is scored `0`.
+- Do not defer core gameplay/system integration to final minutes.
 
 ## Timebox Milestones (Required)
+- By `T-09:00`: set `FINAL_OUTPUT_MANIFEST.json` status to `in_progress` and start a real output artifact.
 - By `T-08:00`: web `index.html` exists and render loop starts.
 - By `T-05:00`: interactive 3D architecture/process view is visible.
+- By `T-04:00`: docs are non-placeholder and manifest remains actively updated.
 - By `T-03:00`: Unity project/build path is populated and verifiable.
 - By `T-00:00`: all required docs/manifests complete and statuses finalized.
 
@@ -127,6 +130,13 @@ def main() -> int:
                 "final_three_minutes": True,
                 "buzzer": True
             }
+        },
+        "gate_schedule": {
+            "start": "T-09:00",
+            "kickoff": "T-08:00",
+            "halfway": "T-05:00",
+            "midpush": "T-04:00",
+            "final": "T-00:00"
         },
         "execution_order": args.competitors,
         "competitors": args.competitors,

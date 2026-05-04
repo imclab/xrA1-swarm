@@ -3,8 +3,10 @@
 Validate final game/simulation outputs for a faceoff round.
 
 Checkpoints:
+- start: first movement gate to prevent idle opening minutes.
 - kickoff: early proof of implementation movement.
 - halfway: playable web + meaningful docs + Unity path progress.
+- midpush: post-halfway push to force convergence before final minutes.
 - final: strict ship gate for leaderboard eligibility.
 """
 
@@ -25,7 +27,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--checkpoint",
         default="final",
-        choices=["kickoff", "halfway", "final"],
+        choices=["start", "kickoff", "halfway", "midpush", "final"],
         help="Validation strictness profile.",
     )
     parser.add_argument("--competitor", action="append", default=[], help="Optional competitor filter.")
@@ -96,7 +98,22 @@ def validate_competitor(round_dir: Path, competitor: str, checkpoint: str) -> di
     missing: list[str] = []
     checks: list[str] = []
 
-    if checkpoint == "kickoff":
+    if checkpoint == "start":
+        checks.extend(
+            [
+                "final manifest exists",
+                "manifest status in_progress/ready/complete/submitted",
+                "at least one real game artifact started (web index or unity status progressed)",
+            ]
+        )
+        if not manifest_path.exists():
+            missing.append("missing_FINAL_OUTPUT_MANIFEST.json")
+        if status not in {"in_progress", "ready", "complete", "submitted"}:
+            missing.append("manifest_status_not_started")
+        if not web_exists and unity_status not in {"in_progress", "ready", "complete", "submitted"}:
+            missing.append("no_real_output_started")
+
+    elif checkpoint == "kickoff":
         checks.extend(
             [
                 "final manifest exists",
@@ -125,6 +142,30 @@ def validate_competitor(round_dir: Path, competitor: str, checkpoint: str) -> di
             missing.append(f"missing_unity_build_info:{unity_rel}")
         if unity_info_exists and not (unity_project_raw or unity_build_raw):
             missing.append("unity_project_or_build_path_empty")
+        if looks_placeholder_markdown(system_md):
+            missing.append("SYSTEM.md_incomplete")
+        if looks_placeholder_markdown(runbook_md):
+            missing.append("RUNBOOK.md_incomplete")
+        if looks_placeholder_markdown(artifacts_md):
+            missing.append("ARTIFACTS.md_incomplete")
+
+    elif checkpoint == "midpush":
+        checks.extend(
+            [
+                "web index exists",
+                "unity info exists with project/build path",
+                "manifest status progressed",
+                "SYSTEM/RUNBOOK/ARTIFACTS not placeholders",
+            ]
+        )
+        if not web_exists:
+            missing.append(f"missing_web_entrypoint:{web_rel}")
+        if not unity_info_exists:
+            missing.append(f"missing_unity_build_info:{unity_rel}")
+        if unity_info_exists and not (unity_project_raw or unity_build_raw):
+            missing.append("unity_project_or_build_path_empty")
+        if status not in {"in_progress", "ready", "complete", "submitted"}:
+            missing.append("manifest_status_not_progressed")
         if looks_placeholder_markdown(system_md):
             missing.append("SYSTEM.md_incomplete")
         if looks_placeholder_markdown(runbook_md):

@@ -28,7 +28,7 @@ Scope of Phase 0:
 - `scripts/round_countdown.py`: countdown cues for CI/terminal urgency tracking.
 - `scripts/build_faceoff_site.py`: builds static faceoff hub (`docs/faceoff`) for GitHub Pages.
 - `scripts/validate_final_outputs.py`: checkpoint/final gate validation for shipped deliverables.
-- `scripts/run_round_gates.py`: timed kickoff/halfway/final gate runner over the round window.
+- `scripts/run_round_gates.py`: timed start/kickoff/halfway/midpush/final gate runner over the round window.
 - `runs/`: local run artifacts (ignored except `.gitkeep`).
 - `reports/`: generated summary reports (ignored except `.gitkeep`).
 
@@ -140,7 +140,7 @@ python3 evaluation/scripts/build_faceoff_site.py \
   --rounds-root evaluation/faceoff_rounds \
   --site-root docs/faceoff
 
-# Optional timed gate monitor for kickoff/halfway/final checks
+# Optional timed gate monitor for start/kickoff/halfway/midpush/final checks
 python3 evaluation/scripts/run_round_gates.py \
   --round-dir "$ROUND_DIR" \
   --minutes 10
@@ -163,8 +163,10 @@ Primary judged dimensions for finals:
 are missing (unless explicitly overridden with `--no-output-gate`).
 
 Checkpoint recommendations:
+- start gate around `T-09:00`
 - kickoff gate around `T-08:00`
 - halfway gate around `T-05:00`
+- midpush gate around `T-04:00`
 - strict final gate at `T-00:00`
 
 Open standards/open source and breakthrough discovery are bonus-scored in the

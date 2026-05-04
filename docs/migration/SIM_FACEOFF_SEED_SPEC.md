@@ -168,15 +168,17 @@ creativity, and efficiency compound over time.
 ## 13. Round Lifecycle
 
 1. Bootstrap round scaffold.
-2. Run kickoff gate (`~T-08:00`).
-3. Run halfway gate (`~T-05:00`).
-4. Run competitor executions in defined order.
-5. Record run metrics and agent event timelines.
-6. Generate competitor final reports and bird's-eye timeline views.
-7. Run strict final gate at buzzer (`T-00:00`).
-8. Compile leaderboard and declare winner.
-9. Append round outcome to historical registry.
-10. Publish latest improved version to this branch and GitHub Pages.
+2. Run start gate (`~T-09:00`).
+3. Run kickoff gate (`~T-08:00`).
+4. Run halfway gate (`~T-05:00`).
+5. Run midpush gate (`~T-04:00`).
+6. Run competitor executions in defined order.
+7. Record run metrics and agent event timelines.
+8. Generate competitor final reports and bird's-eye timeline views.
+9. Run strict final gate at buzzer (`T-00:00`).
+10. Compile leaderboard and declare winner.
+11. Append round outcome to historical registry.
+12. Publish latest improved version to this branch and GitHub Pages.
 
 ## 14. Future Extension Rules
 

@@ -57,7 +57,7 @@ ROUND_DIR=$(ls -1dt evaluation/faceoff_rounds/*_live-sim-faceoff | head -n 1)
 # Optional CI/live urgency timer:
 python3 evaluation/scripts/round_countdown.py --minutes 10 --label "ROUND"
 
-# Optional timed milestone gate runner (kickoff/halfway/final)
+# Optional timed milestone gate runner (start/kickoff/halfway/midpush/final)
 python3 evaluation/scripts/run_round_gates.py \
   --round-dir "$ROUND_DIR" \
   --minutes 10
