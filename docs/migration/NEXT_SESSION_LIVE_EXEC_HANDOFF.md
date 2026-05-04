@@ -130,6 +130,8 @@ python3 evaluation/scripts/validate_final_outputs.py \
 
 Use this brief when the goal is rapid prototype speed, not a full faceoff:
 
+- [Unity prototype launch card](./UNITY_PROTO_LAUNCH_CARD.md)
+
 - Build a playable Unity prototype first.
 - Keep the web layer optional and minimal.
 - Do not wait for check-ins to continue.
