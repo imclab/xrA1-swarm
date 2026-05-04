@@ -1,0 +1,63 @@
+{
+  "entries": [
+    {
+      "agent_contributor_count": 1,
+      "citation_count": 5,
+      "collaboration_link_count": 2,
+      "competitor": "ollama",
+      "final_score": 122.2,
+      "github_handles": [
+        "@imclab"
+      ],
+      "human_contributor_count": 1,
+      "merit_bonus_score": 4.5,
+      "peer_votes": 5,
+      "rank": 1,
+      "round_id": "20260504T161418Z_live-sim-faceoff-r3",
+      "run_dir": "evaluation/runs/20260504T161548Z_ollama_qwen2.5-7b",
+      "x_handles": [
+        "@imclab"
+      ]
+    },
+    {
+      "agent_contributor_count": 1,
+      "citation_count": 5,
+      "collaboration_link_count": 2,
+      "competitor": "codex",
+      "final_score": 107.21,
+      "github_handles": [
+        "@imclab"
+      ],
+      "human_contributor_count": 1,
+      "merit_bonus_score": 4.3,
+      "peer_votes": 4,
+      "rank": 2,
+      "round_id": "20260504T161418Z_live-sim-faceoff-r3",
+      "run_dir": "evaluation/runs/20260504T161517Z_codex_gpt-5.5",
+      "x_handles": [
+        "@imclab"
+      ]
+    },
+    {
+      "agent_contributor_count": 1,
+      "citation_count": 5,
+      "collaboration_link_count": 2,
+      "competitor": "gemini",
+      "final_score": 99.1,
+      "github_handles": [
+        "@imclab"
+      ],
+      "human_contributor_count": 1,
+      "merit_bonus_score": 4.1,
+      "peer_votes": 3,
+      "rank": 3,
+      "round_id": "20260504T161418Z_live-sim-faceoff-r3",
+      "run_dir": "evaluation/runs/20260504T161533Z_gemini_gemini-cli-local",
+      "x_handles": [
+        "@imclab"
+      ]
+    }
+  ],
+  "generated_at_utc": "2026-05-04T16:25:08.303987+00:00",
+  "round_id": "20260504T161418Z_live-sim-faceoff-r3"
+}

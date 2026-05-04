@@ -1,0 +1,36 @@
+{
+  "breakthrough_evidence": [
+    "20260504T161418Z_live-sim-faceoff-r3:codex:all-15-scenarios-pass",
+    "20260504T161418Z_live-sim-faceoff-r3:codex:birdseye-generated",
+    "20260504T161418Z_live-sim-faceoff-r3:codex:playback-bundle-generated"
+  ],
+  "breakthrough_score_0_to_5": 3.9,
+  "citations": [
+    "xrai-timeline-0.1",
+    "rerun-ndjson-adapter",
+    "github-pages-static-artifacts",
+    "webgpu-unity-cross-platform-constraint",
+    "ten-minute-round-countdown-policy"
+  ],
+  "collaboration_links": [
+    "20260504T161418Z_live-sim-faceoff-r3:cross-review:codex-gemini",
+    "20260504T161418Z_live-sim-faceoff-r3:cross-review:gemini-ollama"
+  ],
+  "engagement_score_0_to_5": 4.5,
+  "github_handles": [
+    "@imclab"
+  ],
+  "notes": "Auto-filled rubric on identical baseline harness outputs. Differentiators: local execution independence, open standards leverage, and delivery clarity. Generated at 2026-05-04T16:25:08.220984+00:00",
+  "novelty_score_0_to_5": 3.9,
+  "observability_clarity_0_to_5": 4.8,
+  "open_source_contribution_score_0_to_5": 3.9,
+  "open_source_links": [
+    "https://github.com/imclab/xrA1-swarm"
+  ],
+  "open_standards_score_0_to_5": 4.1,
+  "peer_votes": 4,
+  "usefulness_score_0_to_5": 4.2,
+  "x_handles": [
+    "@imclab"
+  ]
+}

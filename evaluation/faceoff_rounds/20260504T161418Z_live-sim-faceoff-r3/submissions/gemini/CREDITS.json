@@ -1,0 +1,24 @@
+{
+  "agent_contributors": [
+    "gemini-agent"
+  ],
+  "contributions": [
+    {
+      "contributor_id": "jamestunick",
+      "impact": "Enabled complete round execution with branch isolation and auditability.",
+      "type": "human",
+      "what": "Round orchestration, approval, and scoring objective definition.",
+      "where": "evaluation/faceoff_rounds/20260504T161418Z_live-sim-faceoff-r3"
+    },
+    {
+      "contributor_id": "gemini-agent",
+      "impact": "Provided measurable execution telemetry for leaderboard ranking.",
+      "type": "agent",
+      "what": "Generated run artifacts, final report, timeline playback bundle, and birdseye view.",
+      "where": "evaluation/runs/20260504T161533Z_gemini_gemini-cli-local"
+    }
+  ],
+  "human_contributors": [
+    "jamestunick"
+  ]
+}

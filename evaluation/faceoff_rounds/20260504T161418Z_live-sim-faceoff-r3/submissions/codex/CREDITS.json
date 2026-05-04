@@ -1,0 +1,24 @@
+{
+  "agent_contributors": [
+    "codex-agent"
+  ],
+  "contributions": [
+    {
+      "contributor_id": "jamestunick",
+      "impact": "Enabled complete round execution with branch isolation and auditability.",
+      "type": "human",
+      "what": "Round orchestration, approval, and scoring objective definition.",
+      "where": "evaluation/faceoff_rounds/20260504T161418Z_live-sim-faceoff-r3"
+    },
+    {
+      "contributor_id": "codex-agent",
+      "impact": "Provided measurable execution telemetry for leaderboard ranking.",
+      "type": "agent",
+      "what": "Generated run artifacts, final report, timeline playback bundle, and birdseye view.",
+      "where": "evaluation/runs/20260504T161517Z_codex_gpt-5.5"
+    }
+  ],
+  "human_contributors": [
+    "jamestunick"
+  ]
+}

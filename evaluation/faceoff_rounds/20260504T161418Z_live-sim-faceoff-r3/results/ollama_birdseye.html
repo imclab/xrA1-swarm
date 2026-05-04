@@ -1,0 +1,331 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Ollama Birdseye R3</title>
+  <style>
+    :root {
+      --bg: #0b1220;
+      --panel: #111b2f;
+      --text: #eaf2ff;
+      --muted: #98a7c4;
+      --line: #223252;
+      --ok: #28c76f;
+      --warn: #ffb020;
+      --bad: #ff5c7c;
+      --run: #40c4ff;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      background: radial-gradient(circle at 20% 0%, #15243f, var(--bg) 42%);
+      color: var(--text);
+    }
+    .wrap { max-width: 1280px; margin: 0 auto; padding: 18px; }
+    .card {
+      background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 14px;
+      margin-bottom: 12px;
+    }
+    .meta { color: var(--muted); font-size: 12px; }
+    .countdown {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      border: 1px solid #2a3f68;
+      background: linear-gradient(180deg, rgba(64,196,255,0.10), rgba(255,176,32,0.06));
+      border-radius: 14px;
+      padding: 10px 12px;
+      margin-bottom: 12px;
+    }
+    .countdown-clock {
+      font-size: 26px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      color: #ffffff;
+    }
+    .countdown-label {
+      font-size: 11px;
+      color: var(--muted);
+    }
+    .countdown.urgent {
+      border-color: rgba(255,92,124,0.8);
+      box-shadow: 0 0 24px rgba(255,92,124,0.26);
+      animation: pulse 0.9s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.01); }
+      100% { transform: scale(1); }
+    }
+    .btn {
+      appearance: none;
+      border: 1px solid #2f4f80;
+      background: #193158;
+      color: #eaf2ff;
+      border-radius: 10px;
+      padding: 7px 11px;
+      font-size: 11px;
+      cursor: pointer;
+    }
+    .btn[disabled] {
+      opacity: 0.6;
+      cursor: default;
+    }
+    .timeline {
+      position: relative;
+      overflow: auto;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: var(--panel);
+      padding: 12px;
+      min-height: 260px;
+    }
+    .lane {
+      position: relative;
+      height: 44px;
+      border-bottom: 1px dashed #1d2a45;
+      margin-bottom: 8px;
+      padding-left: 170px;
+    }
+    .lane:last-child { border-bottom: 0; }
+    .lane-label {
+      position: absolute;
+      left: 0;
+      top: 12px;
+      width: 164px;
+      color: var(--muted);
+      font-size: 11px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .event {
+      position: absolute;
+      top: 10px;
+      height: 22px;
+      border-radius: 8px;
+      border: 1px solid rgba(255,255,255,0.2);
+      background: #2d4874;
+      color: #f5fbff;
+      font-size: 10px;
+      padding: 3px 6px;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+    .event.completed { background: rgba(40,199,111,0.35); }
+    .event.running, .event.started { background: rgba(64,196,255,0.35); }
+    .event.blocked, .event.failed { background: rgba(255,92,124,0.35); }
+    .event.skipped { background: rgba(255,176,32,0.35); }
+    .playhead {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: var(--run);
+      box-shadow: 0 0 12px var(--run);
+      pointer-events: none;
+      animation: scan linear infinite;
+    }
+    @keyframes scan {
+      from { left: 170px; }
+      to { left: calc(170px + var(--timeline-width)); }
+    }
+    .legend { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px; font-size: 11px; color: var(--muted); }
+    .dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 4px; }
+    .list { margin-top: 10px; font-size: 11px; color: var(--muted); max-height: 220px; overflow: auto; }
+    .list-row { padding: 6px 8px; border-bottom: 1px solid #1d2a45; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card">
+      <div><strong>Ollama Birdseye R3</strong></div>
+      <div class="meta">Run: <span id="run-id"></span> | Provider: <span id="provider"></span> | Model: <span id="model"></span></div>
+    </div>
+    <div class="countdown" id="countdown">
+      <div>
+        <div class="countdown-clock" id="countdown-clock">10:00</div>
+        <div class="countdown-label" id="countdown-label">Ship before the buzzer.</div>
+      </div>
+      <button class="btn" id="sound-btn">Enable Sound</button>
+    </div>
+    <div class="card timeline" id="timeline"></div>
+    <div class="card">
+      <div class="legend">
+        <span><i class="dot" style="background: rgba(64,196,255,0.8)"></i>started/running</span>
+        <span><i class="dot" style="background: rgba(40,199,111,0.8)"></i>completed</span>
+        <span><i class="dot" style="background: rgba(255,92,124,0.8)"></i>failed/blocked</span>
+        <span><i class="dot" style="background: rgba(255,176,32,0.8)"></i>skipped</span>
+      </div>
+      <div class="list" id="event-list"></div>
+    </div>
+  </div>
+  <script>
+    const data = {"title": "Ollama Birdseye R3", "run_id": "20260504T161548Z_ollama_qwen2.5-7b", "provider": "ollama", "model": "qwen2.5-7b", "round_minutes": 10, "lanes": [{"agent_id": "planner-s001", "agent_role": "orchestrator"}, {"agent_id": "worker-s001", "agent_role": "implementation"}, {"agent_id": "verifier-s001", "agent_role": "verification"}, {"agent_id": "planner-s002", "agent_role": "orchestrator"}, {"agent_id": "worker-s002", "agent_role": "implementation"}, {"agent_id": "verifier-s002", "agent_role": "verification"}, {"agent_id": "planner-s003", "agent_role": "orchestrator"}, {"agent_id": "worker-s003", "agent_role": "implementation"}, {"agent_id": "verifier-s003", "agent_role": "verification"}, {"agent_id": "planner-s004", "agent_role": "orchestrator"}, {"agent_id": "worker-s004", "agent_role": "implementation"}, {"agent_id": "verifier-s004", "agent_role": "verification"}, {"agent_id": "planner-s005", "agent_role": "orchestrator"}, {"agent_id": "worker-s005", "agent_role": "implementation"}, {"agent_id": "verifier-s005", "agent_role": "verification"}, {"agent_id": "planner-s006", "agent_role": "orchestrator"}, {"agent_id": "worker-s006", "agent_role": "implementation"}, {"agent_id": "verifier-s006", "agent_role": "verification"}, {"agent_id": "planner-s007", "agent_role": "orchestrator"}, {"agent_id": "worker-s007", "agent_role": "implementation"}, {"agent_id": "verifier-s007", "agent_role": "verification"}, {"agent_id": "planner-s008", "agent_role": "orchestrator"}, {"agent_id": "worker-s008", "agent_role": "implementation"}, {"agent_id": "verifier-s008", "agent_role": "verification"}, {"agent_id": "planner-s009", "agent_role": "orchestrator"}, {"agent_id": "worker-s009", "agent_role": "implementation"}, {"agent_id": "verifier-s009", "agent_role": "verification"}, {"agent_id": "planner-s010", "agent_role": "orchestrator"}, {"agent_id": "worker-s010", "agent_role": "implementation"}, {"agent_id": "verifier-s010", "agent_role": "verification"}, {"agent_id": "planner-s011", "agent_role": "orchestrator"}, {"agent_id": "worker-s011", "agent_role": "implementation"}, {"agent_id": "verifier-s011", "agent_role": "verification"}, {"agent_id": "planner-s012", "agent_role": "orchestrator"}, {"agent_id": "worker-s012", "agent_role": "implementation"}, {"agent_id": "verifier-s012", "agent_role": "verification"}, {"agent_id": "planner-s013", "agent_role": "orchestrator"}, {"agent_id": "worker-s013", "agent_role": "implementation"}, {"agent_id": "verifier-s013", "agent_role": "verification"}, {"agent_id": "planner-s014", "agent_role": "orchestrator"}, {"agent_id": "worker-s014", "agent_role": "implementation"}, {"agent_id": "verifier-s014", "agent_role": "verification"}, {"agent_id": "planner-s015", "agent_role": "orchestrator"}, {"agent_id": "worker-s015", "agent_role": "implementation"}, {"agent_id": "verifier-s015", "agent_role": "verification"}], "events": [{"agent_id": "planner-s001", "agent_role": "orchestrator", "duration_ms": 900, "notes": "token_source=estimated_chars_div4_no_api_key", "record_version": 1, "recorded_at_utc": "2026-05-04T16:15:48.095447+00:00", "run_id": "20260504T161548Z_ollama_qwen2.5-7b", "scenario_id": "S001", "start_ms": 0, "status": "completed", "tokens_cached": 0, "tokens_completion": 5, "tokens_prompt": 21, "tokens_total": 26, "what": "planned scenario execution", "where": "evaluation/runs/20260504T161548Z_ollama_qwen2.5-7b/artifacts/S001.md", "why": "map prompt to measurable baseline steps"}, {"agent_id": "worker-s001", "agent_role": "implementation", "duration_ms": 1800, "notes": "completion_tokens estimated via chars_div4", "record_version": 1, "recorded_at_utc": "2026-05-04T16:15:48.095542+00:00", "run_id": "20260504T161548Z_ollama_qwen2.5-7b", "scenario_id": "S001", "start_ms": 900, "status": "completed", "tokens_cached": 0, "tokens_completion": 81, "tokens_prompt": 10, "tokens_total": 91, "what": "produced scenario artifact and telemetry", "where": "evaluation/runs/20260504T161548Z_ollama_qwen2.5-7b/artifacts/S001.md", "why": "create reproducible evidence for benchmark pass"}, {"agent_id": "verifier-s001", "agent_role": "verification", "duration_ms": 700, "notes": "verification pass", "record_version": 1, "recorded_at_utc": "2026-05-04T16:15:48.095598+00:00", "run_id": "20260504T161548Z_ollama_qwen2.5-7b", "scenario_id": "S001", "start_ms": 2700, "status": "completed", "tokens_cached": 0, "tokens_completion": 60, "tokens_prompt": 150, "tokens_total": 210, "what": "validated criteria and checks", "where": "evaluation/runs/20260504T161548Z_ollama_qwen2.5-7b/artifacts/S001.md", "why": "ensure visibility and consistency"}, {"agent_id": "planner-s002", "agent_role": "orchestrator", "duration_ms": 1200, "notes": "token_source=estimated_chars_div4_no_api_key", "record_version": 1, "recorded_at_utc": "2026-05-04T16:15:48.095818+00:00", "run_id": "20260504T161548Z_ollama_qwen2.5-7b", "scenario_id": "S002", "start_ms": 3400, "status": "completed", "tokens_cached": 0, "tokens_completion": 4, "tokens_prompt": 17, "tokens_total": 21, "what": "planned scenario execution", "where": "evaluation/runs/20260504T161548Z_ollama_qwen2.5-7b/artifacts/S002.md", "why": "map prompt to measurable baseline steps"}, {"agent_id": "worker-s002", "agent_role": "implementation", "duration_ms": 2800, "notes": "completion_tokens estimated via chars_div4", "record_version": 1, "recorded_at_utc": "2026-05-04T16:15:48.095859+00:00", "run_id": "20260504T161548Z_ollama_qwen2.5-7b", "scenario_id": "S002", "start_ms": 4600, "status": "completed", "tokens_cached": 0, "tokens_completion": 110, "tokens_prompt": 8, "tokens_total": 118, "what": "produced scenario artifact and telemetry", "where": "evaluation/runs/20260504T161548Z_ollama_qwen2.5-7b/artifacts/S002.md", "why": "create reproducible evidence for benchmark pass"}, {"agent_id": "verifier-s002", "agent_role": "verification", "duration_ms": 1000, "notes": "verification pass", "record_version": 1, "recorded_at_utc": "2026-05-04T16:15:48.095895+00:00", "run_id": "20260504T161548Z_ollama_qwen2.5-7b", "scenario_id": "S002", "start_ms": 7400, "status": "completed", "tokens_cached": 0, "tokens_completion": 60, "tokens_prompt": 150, "tokens_total": 210, "what": "validated criteria and checks", "where": "evaluation/runs/20260504T161548Z_ollama_qwen2.5-7b/artifacts/S002.md", "why": "ensure visibility and consistency"}, {"agent_id": "planner-s003", "agent_role": "orchestrator", "duration_ms": 900, "notes": "token_source=estimated_chars_div4_no_api_key", "record_version": 1, "recorded_at_utc": "2026-05-04T16:15:48.096058+00:00", "run_id": "20260504T161548Z_ollama_qwen2.5-7b", "scenario_id": "S003", "start_ms": 8400, "status": "completed", "tokens_cached": 0, "tokens_completion": 4, "tokens_prompt": 17, "tokens_total": 21, "what": "planned scenario execution", "where": "evaluation/runs/20260504T161548Z_ollama_qwen2.5-7b/artifacts/S003.md", "why": "map prompt to measurable baseline steps"}, {"agent_id": "worker-s003", "agent_role": "implementation", "duration_ms": 1800, "notes": "completion_tokens estimated via chars_div4", "record_version": 1, "recorded_at_utc": "2026-05-04T16:15:48.096096+00:00", "run_id": "20260504T161548Z_ollama_qwen2.5-7b", "scenario_id": "S003", "start_ms": 9300, "status": "completed", "tokens_cached": 0, "tokens_completion": 77, "tokens_prompt": 8, "tokens_total": 85, "what": "produced scenario artifact and telemetry", "where": "evaluation/runs/20260504T161548Z_ollama_qwen2.5-7b/artifacts/S003.md", "why": "create reproducible evidence for benchmark pass"}, {"agent_id": "verifier-s003", "agent_role": "verification", "duration_ms": 700, "notes": "verification pass", "record_version": 1, "recorded_at_utc": "2026-05-04T16:15:48.096148+00:00", "run_id": "20260504T161548Z_ollama_qwen2.5-7b", "scenario_id": "S003", "start_ms": 11100, "status": "completed", "tokens_cached": 0, "tokens_completion": 60, "tokens_prompt": 150, "tokens_total": 210, "what": "validated criteria and checks", "where": "evaluation/runs/20260504T161548Z_ollama_qwen2.5-7b/artifacts/S003.md", "why": "ensure visibility and consistency"}, {"agent_id": "planner-s004", "agent_role": "orchestrator", "duration_ms": 1200, "notes": "token_source=estimated_chars_div4_no_api_key", "record_version": 1, "recorded_at_utc": "2026-05-04T16:15:48.096300+00:00", "run_id": "20260504T161548Z_ollama_qwen2.5-7b", "scenario_id": "S004", "start_ms": 11800, "status": "completed", "tokens_cached": 0, "tokens_completion": 5, "tokens_prompt": 22, "tokens_total": 27, "what": "planned scenario execution", "where": "evaluation/runs/20260504T161548Z_ollama_qwen2.5-7b/artifacts/S004.md", "why": "map prompt to measurable baseline steps"}, {"agent_id": "worker-s004", "agent_role": "implementation", "duration_ms": 2800, "notes": "completion_tokens estimated via chars_div4", "record_version": 1, "recorded_at_utc": "2026-05-04T16:15:48.096335+00:00", "run_id": "20260504T161548Z_ollama_qwen2.5-7b", "scenario_id": "S004", "start_ms": 13000, "status": "completed", "tokens_cached": 0, "tokens_completion": 115, "tokens_prompt": 11, "tokens_total": 126, "what": "produced scenario artifact and telemetry", "where": "evaluation/runs/20260504T161548Z_ollama_qwen2.5-7b/artifacts/S004.md", "why": "create reproducible evidence for benchmark pass"}, {"agent_id": "verifier-s004", "agent_role": "verification", "duration_ms": 1000, "notes": "verification pass", "record_version": 1, "recorded_at_utc": "2026-05-04T16:15:48.096366+00:00", "run_id": "20260504T161548Z_ollama_qwen2.5-7b", "scenario_id": "S004", "start_ms": 15800, "status": "completed", "tokens_cached": 0, "tokens_completion": 60, "tokens_prompt": 150, "tokens_total": 210, "what": "validated criteria and checks", "where": "evaluation/runs/20260504T161548Z_ollama_qwen2.5-7b/artifacts/S004.md", "why": "ensure visibility and consistency"}, {"agent_id": "planner-s005", "agent_role": "orchestrator", "duration_ms": 900, "notes": "token_source=estimated_chars_div4_no_api_key", "record_version": 1, "recorded_at_utc": "2026-05-04T16:15:48.096501+00:00", "run_id": "20260504T161548Z_ollama_qwen2.5-7b", "scenario_id": "S005", "start_ms": 16800, "status": "completed", "tokens_cached": 0, "tokens_completion": 4, "tokens_prompt": 18, "tokens_total": 22, "what": "planned scenario execution", "where": "evaluation/runs/20260504T161548Z_ollama_qwen2.5-7b/artifacts/S005.md", "why": "map prompt to measurable baseline steps"}, {"agent_id": "worker-s005", "agent_role": "implementation", "duration_ms": 1800, "notes": "completion_tokens estimated via chars_div4", "record_version": 1, "recorded_at_utc": "2026-05-04T16:15:48.096537+00:00", "run_id": "20260504T161548Z_ollama_qwen2.5-7b", "scenario_id": "S005", "start_ms": 17700, "status": "completed", "tokens_cached": 0, "tokens_completion": 78, "tokens_prompt": 9, "tokens_total": 87, "what": "produced scenario artifact and telemetry", "where": "evaluation/runs/20260504T161548Z_ollama_qwen2.5-7b/artifacts/S005.md", "why": "create reproducible evidence for benchmark pass"}, {"agent_id": "verifier-s005", "agent_role": "verification", "duration_ms": 700, "notes": "verification pass", "record_version": 1, "recorded_at_utc": "2026-05-04T16:15:48.096570+00:00", "run_id": "20260504T161548Z_ollama_qwen2.5-7b", "scenario_id": "S005", "start_ms": 19500, "status": "completed", "tokens_cached": 0, "tokens_completion": 60, "tokens_prompt": 150, "tokens_total": 210, "what": "validated criteria and checks", "where": "evaluation/runs/20260504T161548Z_ollama_qwen2.5-7b/artifacts/S005.md", "why": "ensure visibility and consistency"}, {"agent_id": "planner-s006", "agent_role": "orchestrator", "duration_ms": 1200, "notes": "token_source=estimated_chars_div4_no_api_key", "record_version": 1, "recorded_at_utc": "2026-05-04T16:15:48.096722+00:00", "run_id": "20260504T161548Z_ollama_qwen2.5-7b", "scenario_id": "S006", "start_ms": 20200, "status": "completed", "tokens_cached": 0, "tokens_completion": 4, "tokens_prompt": 18, "tokens_total": 22, "what": "planned scenario execution", "where": "evaluation/runs/20260504T161548Z_ollama_qwen2.5-7b/artifacts/S006.md", "why": "map prompt to measurable baseline steps"}, {"agent_id": "worker-s006", "agent_role": "implementation", "duration_ms": 2800, "notes": "completion_tokens estimated via chars_div4", "record_version": 1, "recorded_at_utc": "2026-05-04T16:15:48.096765+00:00", "run_id": "20260504T161548Z_ollama_qwen2.5-7b", "scenario_id": "S006", "start_ms": 21400, "status": "completed", "tokens_cached": 0, "tokens_completion": 111, "tokens_prompt": 9, "tokens_total": 120, "what": "produced scenario artifact and telemetry", "where": "evaluation/runs/20260504T161548Z_ollama_qwen2.5-7b/artifacts/S006.md", "why": "create reproducible evidence for benchmark pass"}, {"agent_id": "verifier-s006", "agent_role": "verification", "duration_ms": 1000, "notes": "verification pass", "record_version": 1, "recorded_at_utc": "2026-05-04T16:15:48.096801+00:00", "run_id": "20260504T161548Z_ollama_qwen2.5-7b", "scenario_id": "S006", "start_ms": 24200, "status": "completed", "tokens_cached": 0, "tokens_completion": 60, "tokens_prompt": 150, "tokens_total": 210, "what": "validated criteria and checks", "where": "evaluation/runs/20260504T161548Z_ollama_qwen2.5-7b/artifacts/S006.md", "why": "ensure visibility and consistency"}, {"agent_id": "planner-s007", "agent_role": "orchestrator", "duration_ms": 900, "notes": "token_source=estimated_chars_div4_no_api_key", "record_version": 1, "recorded_at_utc": "2026-05-04T16:15:48.096945+00:00", "run_id": "20260504T161548Z_ollama_qwen2.5-7b", "scenario_id": "S007", "start_ms": 25200, "status": "completed", "tokens_cached": 0, "tokens_completion": 3, "tokens_prompt": 15, "tokens_total": 18, "what": "planned scenario execution", "where": "evaluation/runs/20260504T161548Z_ollama_qwen2.5-7b/artifacts/S007.md", "why": "map prompt to measurable baseline steps"}, {"agent_id": "worker-s007", "agent_role": "implementation", "duration_ms": 1800, "notes": "completion_tokens estimated via chars_div4", "record_version": 1, "recorded_at_utc": "2026-05-04T16:15:48.096980+00:00", "run_id": "20260504T161548Z_ollama_qwen2.5-7b", "scenario_id": "S007", "start_ms": 26100, "status": "completed", "tokens_cached": 0, "tokens_completion": 75, "tokens_prompt": 7, "tokens_total": 82, "what": "produced scenario artifact and telemetry", "where": "evaluation/runs/20260504T161548Z_ollama_qwen2.5-7b/artifacts/S007.md", "why": "create reproducible evidence for benchmark pass"}, {"agent_id": "verifier-s007", "agent_role": "verification", "duration_ms": 700, "notes": "verification pass", "record_version": 1, "recorded_at_utc": "2026-05-04T16:15:48.097011+00:00", "run_id": "20260504T161548Z_ollama_qwen2.5-7b", "scenario_id": "S007", "start_ms": 27900, "status": "completed", "tokens_cached": 0, "tokens_completion": 60, "tokens_prompt": 150, "tokens_total": 210, "what": "validated criteria and checks", "where": "evaluation/runs/20260504T161548Z_ollama_qwen2.5-7b/artifacts/S007.md", "why": "ensure visibility and consistency"}, {"agent_id": "planner-s008", "agent_role": "orchestrator", "duration_ms": 1200, "notes": "token_source=estimated_chars_div4_no_api_key", "record_version": 1, "recorded_at_utc": "2026-05-04T16:15:48.097143+00:00", "run_id": "20260504T161548Z_ollama_qwen2.5-7b", "scenario_id": "S008", "start_ms": 28600, "status": "completed", "tokens_cached": 0, "tokens_completion": 3, "tokens_prompt": 15, "tokens_total": 18, "what": "planned scenario execution", "where": "evaluation/runs/20260504T161548Z_ollama_qwen2.5-7b/artifacts/S008.md", "why": "map prompt to measurable baseline steps"}, {"agent_id": "worker-s008", "agent_role": "implementation", "duration_ms": 2800, "notes": "completion_tokens estimated via chars_div4", "record_version": 1, "recorded_at_utc": "2026-05-04T16:15:48.097190+00:00", "run_id": "20260504T161548Z_ollama_qwen2.5-7b", "scenario_id": "S008", "start_ms": 29800, "status": "completed", "tokens_cached": 0, "tokens_completion": 108, "tokens_prompt": 7, "tokens_total": 115, "what": "produced scenario artifact and telemetry", "where": "evaluation/runs/20260504T161548Z_ollama_qwen2.5-7b/artifacts/S008.md", "why": "create reproducible evidence for benchmark pass"}, {"agent_id": "verifier-s008", "agent_role": "verification", "duration_ms": 1000, "notes": "verification pass", "record_version": 1, "recorded_at_utc": "2026-05-04T16:15:48.097231+00:00", "run_id": "20260504T161548Z_ollama_qwen2.5-7b", "scenario_id": "S008", "start_ms": 32600, "status": "completed", "tokens_cached": 0, "tokens_completion": 60, "tokens_prompt": 150, "tokens_total": 210, "what": "validated criteria and checks", "where": "evaluation/runs/20260504T161548Z_ollama_qwen2.5-7b/artifacts/S008.md", "why": "ensure visibility and consistency"}, {"agent_id": "planner-s009", "agent_role": "orchestrator", "duration_ms": 1200, "notes": "token_source=estimated_chars_div4_no_api_key", "record_version": 1, "recorded_at_utc": "2026-05-04T16:15:48.097393+00:00", "run_id": "20260504T161548Z_ollama_qwen2.5-7b", "scenario_id": "S009", "start_ms": 33600, "status": "completed", "tokens_cached": 0, "tokens_completion": 4, "tokens_prompt": 18, "tokens_total": 22, "what": "planned scenario execution", "where": "evaluation/runs/20260504T161548Z_ollama_qwen2.5-7b/artifacts/S009.md", "why": "map prompt to measurable baseline steps"}, {"agent_id": "worker-s009", "agent_role": "implementation", "duration_ms": 2800, "notes": "completion_tokens estimated via chars_div4", "record_version": 1, "recorded_at_utc": "2026-05-04T16:15:48.097437+00:00", "run_id": "20260504T161548Z_ollama_qwen2.5-7b", "scenario_id": "S009", "start_ms": 34800, "status": "completed", "tokens_cached": 0, "tokens_completion": 111, "tokens_prompt": 9, "tokens_total": 120, "what": "produced scenario artifact and telemetry", "where": "evaluation/runs/20260504T161548Z_ollama_qwen2.5-7b/artifacts/S009.md", "why": "create reproducible evidence for benchmark pass"}, {"agent_id": "verifier-s009", "agent_role": "verification", "duration_ms": 1000, "notes": "verification pass", "record_version": 1, "recorded_at_utc": "2026-05-04T16:15:48.097477+00:00", "run_id": "20260504T161548Z_ollama_qwen2.5-7b", "scenario_id": "S009", "start_ms": 37600, "status": "completed", "tokens_cached": 0, "tokens_completion": 60, "tokens_prompt": 150, "tokens_total": 210, "what": "validated criteria and checks", "where": "evaluation/runs/20260504T161548Z_ollama_qwen2.5-7b/artifacts/S009.md", "why": "ensure visibility and consistency"}, {"agent_id": "planner-s010", "agent_role": "orchestrator", "duration_ms": 1200, "notes": "token_source=estimated_chars_div4_no_api_key", "record_version": 1, "recorded_at_utc": "2026-05-04T16:15:48.097633+00:00", "run_id": "20260504T161548Z_ollama_qwen2.5-7b", "scenario_id": "S010", "start_ms": 38600, "status": "completed", "tokens_cached": 0, "tokens_completion": 5, "tokens_prompt": 20, "tokens_total": 25, "what": "planned scenario execution", "where": "evaluation/runs/20260504T161548Z_ollama_qwen2.5-7b/artifacts/S010.md", "why": "map prompt to measurable baseline steps"}, {"agent_id": "worker-s010", "agent_role": "implementation", "duration_ms": 2800, "notes": "completion_tokens estimated via chars_div4", "record_version": 1, "recorded_at_utc": "2026-05-04T16:15:48.097672+00:00", "run_id": "20260504T161548Z_ollama_qwen2.5-7b", "scenario_id": "S010", "start_ms": 39800, "status": "completed", "tokens_cached": 0, "tokens_completion": 113, "tokens_prompt": 10, "tokens_total": 123, "what": "produced scenario artifact and telemetry", "where": "evaluation/runs/20260504T161548Z_ollama_qwen2.5-7b/artifacts/S010.md", "why": "create reproducible evidence for benchmark pass"}, {"agent_id": "verifier-s010", "agent_role": "verification", "duration_ms": 1000, "notes": "verification pass", "record_version": 1, "recorded_at_utc": "2026-05-04T16:15:48.097722+00:00", "run_id": "20260504T161548Z_ollama_qwen2.5-7b", "scenario_id": "S010", "start_ms": 42600, "status": "completed", "tokens_cached": 0, "tokens_completion": 60, "tokens_prompt": 150, "tokens_total": 210, "what": "validated criteria and checks", "where": "evaluation/runs/20260504T161548Z_ollama_qwen2.5-7b/artifacts/S010.md", "why": "ensure visibility and consistency"}, {"agent_id": "planner-s011", "agent_role": "orchestrator", "duration_ms": 1200, "notes": "token_source=estimated_chars_div4_no_api_key", "record_version": 1, "recorded_at_utc": "2026-05-04T16:15:48.097870+00:00", "run_id": "20260504T161548Z_ollama_qwen2.5-7b", "scenario_id": "S011", "start_ms": 43600, "status": "completed", "tokens_cached": 0, "tokens_completion": 4, "tokens_prompt": 17, "tokens_total": 21, "what": "planned scenario execution", "where": "evaluation/runs/20260504T161548Z_ollama_qwen2.5-7b/artifacts/S011.md", "why": "map prompt to measurable baseline steps"}, {"agent_id": "worker-s011", "agent_role": "implementation", "duration_ms": 2800, "notes": "completion_tokens estimated via chars_div4", "record_version": 1, "recorded_at_utc": "2026-05-04T16:15:48.097905+00:00", "run_id": "20260504T161548Z_ollama_qwen2.5-7b", "scenario_id": "S011", "start_ms": 44800, "status": "completed", "tokens_cached": 0, "tokens_completion": 110, "tokens_prompt": 8, "tokens_total": 118, "what": "produced scenario artifact and telemetry", "where": "evaluation/runs/20260504T161548Z_ollama_qwen2.5-7b/artifacts/S011.md", "why": "create reproducible evidence for benchmark pass"}, {"agent_id": "verifier-s011", "agent_role": "verification", "duration_ms": 1000, "notes": "verification pass", "record_version": 1, "recorded_at_utc": "2026-05-04T16:15:48.097938+00:00", "run_id": "20260504T161548Z_ollama_qwen2.5-7b", "scenario_id": "S011", "start_ms": 47600, "status": "completed", "tokens_cached": 0, "tokens_completion": 60, "tokens_prompt": 150, "tokens_total": 210, "what": "validated criteria and checks", "where": "evaluation/runs/20260504T161548Z_ollama_qwen2.5-7b/artifacts/S011.md", "why": "ensure visibility and consistency"}, {"agent_id": "planner-s012", "agent_role": "orchestrator", "duration_ms": 1800, "notes": "token_source=estimated_chars_div4_no_api_key", "record_version": 1, "recorded_at_utc": "2026-05-04T16:15:48.098095+00:00", "run_id": "20260504T161548Z_ollama_qwen2.5-7b", "scenario_id": "S012", "start_ms": 48600, "status": "completed", "tokens_cached": 0, "tokens_completion": 4, "tokens_prompt": 18, "tokens_total": 22, "what": "planned scenario execution", "where": "evaluation/runs/20260504T161548Z_ollama_qwen2.5-7b/artifacts/S012.md", "why": "map prompt to measurable baseline steps"}, {"agent_id": "worker-s012", "agent_role": "implementation", "duration_ms": 4200, "notes": "completion_tokens estimated via chars_div4", "record_version": 1, "recorded_at_utc": "2026-05-04T16:15:48.098128+00:00", "run_id": "20260504T161548Z_ollama_qwen2.5-7b", "scenario_id": "S012", "start_ms": 50400, "status": "completed", "tokens_cached": 0, "tokens_completion": 158, "tokens_prompt": 9, "tokens_total": 167, "what": "produced scenario artifact and telemetry", "where": "evaluation/runs/20260504T161548Z_ollama_qwen2.5-7b/artifacts/S012.md", "why": "create reproducible evidence for benchmark pass"}, {"agent_id": "verifier-s012", "agent_role": "verification", "duration_ms": 1500, "notes": "verification pass", "record_version": 1, "recorded_at_utc": "2026-05-04T16:15:48.098159+00:00", "run_id": "20260504T161548Z_ollama_qwen2.5-7b", "scenario_id": "S012", "start_ms": 54600, "status": "completed", "tokens_cached": 0, "tokens_completion": 60, "tokens_prompt": 150, "tokens_total": 210, "what": "validated criteria and checks", "where": "evaluation/runs/20260504T161548Z_ollama_qwen2.5-7b/artifacts/S012.md", "why": "ensure visibility and consistency"}, {"agent_id": "planner-s013", "agent_role": "orchestrator", "duration_ms": 1800, "notes": "token_source=estimated_chars_div4_no_api_key", "record_version": 1, "recorded_at_utc": "2026-05-04T16:15:48.098318+00:00", "run_id": "20260504T161548Z_ollama_qwen2.5-7b", "scenario_id": "S013", "start_ms": 56100, "status": "completed", "tokens_cached": 0, "tokens_completion": 5, "tokens_prompt": 22, "tokens_total": 27, "what": "planned scenario execution", "where": "evaluation/runs/20260504T161548Z_ollama_qwen2.5-7b/artifacts/S013.md", "why": "map prompt to measurable baseline steps"}, {"agent_id": "worker-s013", "agent_role": "implementation", "duration_ms": 4200, "notes": "completion_tokens estimated via chars_div4", "record_version": 1, "recorded_at_utc": "2026-05-04T16:15:48.098353+00:00", "run_id": "20260504T161548Z_ollama_qwen2.5-7b", "scenario_id": "S013", "start_ms": 57900, "status": "completed", "tokens_cached": 0, "tokens_completion": 162, "tokens_prompt": 11, "tokens_total": 173, "what": "produced scenario artifact and telemetry", "where": "evaluation/runs/20260504T161548Z_ollama_qwen2.5-7b/artifacts/S013.md", "why": "create reproducible evidence for benchmark pass"}, {"agent_id": "verifier-s013", "agent_role": "verification", "duration_ms": 1500, "notes": "verification pass", "record_version": 1, "recorded_at_utc": "2026-05-04T16:15:48.098384+00:00", "run_id": "20260504T161548Z_ollama_qwen2.5-7b", "scenario_id": "S013", "start_ms": 62100, "status": "completed", "tokens_cached": 0, "tokens_completion": 60, "tokens_prompt": 150, "tokens_total": 210, "what": "validated criteria and checks", "where": "evaluation/runs/20260504T161548Z_ollama_qwen2.5-7b/artifacts/S013.md", "why": "ensure visibility and consistency"}, {"agent_id": "planner-s014", "agent_role": "orchestrator", "duration_ms": 1800, "notes": "token_source=estimated_chars_div4_no_api_key", "record_version": 1, "recorded_at_utc": "2026-05-04T16:15:48.098519+00:00", "run_id": "20260504T161548Z_ollama_qwen2.5-7b", "scenario_id": "S014", "start_ms": 63600, "status": "completed", "tokens_cached": 0, "tokens_completion": 5, "tokens_prompt": 22, "tokens_total": 27, "what": "planned scenario execution", "where": "evaluation/runs/20260504T161548Z_ollama_qwen2.5-7b/artifacts/S014.md", "why": "map prompt to measurable baseline steps"}, {"agent_id": "worker-s014", "agent_role": "implementation", "duration_ms": 4200, "notes": "completion_tokens estimated via chars_div4", "record_version": 1, "recorded_at_utc": "2026-05-04T16:15:48.098552+00:00", "run_id": "20260504T161548Z_ollama_qwen2.5-7b", "scenario_id": "S014", "start_ms": 65400, "status": "completed", "tokens_cached": 0, "tokens_completion": 162, "tokens_prompt": 11, "tokens_total": 173, "what": "produced scenario artifact and telemetry", "where": "evaluation/runs/20260504T161548Z_ollama_qwen2.5-7b/artifacts/S014.md", "why": "create reproducible evidence for benchmark pass"}, {"agent_id": "verifier-s014", "agent_role": "verification", "duration_ms": 1500, "notes": "verification pass", "record_version": 1, "recorded_at_utc": "2026-05-04T16:15:48.098584+00:00", "run_id": "20260504T161548Z_ollama_qwen2.5-7b", "scenario_id": "S014", "start_ms": 69600, "status": "completed", "tokens_cached": 0, "tokens_completion": 60, "tokens_prompt": 150, "tokens_total": 210, "what": "validated criteria and checks", "where": "evaluation/runs/20260504T161548Z_ollama_qwen2.5-7b/artifacts/S014.md", "why": "ensure visibility and consistency"}, {"agent_id": "planner-s015", "agent_role": "orchestrator", "duration_ms": 1800, "notes": "token_source=estimated_chars_div4_no_api_key", "record_version": 1, "recorded_at_utc": "2026-05-04T16:15:48.098729+00:00", "run_id": "20260504T161548Z_ollama_qwen2.5-7b", "scenario_id": "S015", "start_ms": 71100, "status": "completed", "tokens_cached": 0, "tokens_completion": 5, "tokens_prompt": 22, "tokens_total": 27, "what": "planned scenario execution", "where": "evaluation/runs/20260504T161548Z_ollama_qwen2.5-7b/artifacts/S015.md", "why": "map prompt to measurable baseline steps"}, {"agent_id": "worker-s015", "agent_role": "implementation", "duration_ms": 4200, "notes": "completion_tokens estimated via chars_div4", "record_version": 1, "recorded_at_utc": "2026-05-04T16:15:48.098783+00:00", "run_id": "20260504T161548Z_ollama_qwen2.5-7b", "scenario_id": "S015", "start_ms": 72900, "status": "completed", "tokens_cached": 0, "tokens_completion": 162, "tokens_prompt": 11, "tokens_total": 173, "what": "produced scenario artifact and telemetry", "where": "evaluation/runs/20260504T161548Z_ollama_qwen2.5-7b/artifacts/S015.md", "why": "create reproducible evidence for benchmark pass"}, {"agent_id": "verifier-s015", "agent_role": "verification", "duration_ms": 1500, "notes": "verification pass", "record_version": 1, "recorded_at_utc": "2026-05-04T16:15:48.098823+00:00", "run_id": "20260504T161548Z_ollama_qwen2.5-7b", "scenario_id": "S015", "start_ms": 77100, "status": "completed", "tokens_cached": 0, "tokens_completion": 60, "tokens_prompt": 150, "tokens_total": 210, "what": "validated criteria and checks", "where": "evaluation/runs/20260504T161548Z_ollama_qwen2.5-7b/artifacts/S015.md", "why": "ensure visibility and consistency"}], "duration_ms": 78600};
+    const pxPerMs = 0.0035;
+    const timeline = document.getElementById("timeline");
+    const eventList = document.getElementById("event-list");
+    const countdown = document.getElementById("countdown");
+    const countdownClock = document.getElementById("countdown-clock");
+    const countdownLabel = document.getElementById("countdown-label");
+    const soundBtn = document.getElementById("sound-btn");
+    document.getElementById("run-id").textContent = data.run_id;
+    document.getElementById("provider").textContent = data.provider;
+    document.getElementById("model").textContent = data.model;
+
+    const width = Math.max(860, Math.ceil(data.duration_ms * pxPerMs));
+    timeline.style.setProperty("--timeline-width", `${width}px`);
+    timeline.style.setProperty("animation-duration", `${Math.max(6, data.duration_ms / 800)}s`);
+
+    for (const lane of data.lanes) {
+      const laneEl = document.createElement("div");
+      laneEl.className = "lane";
+      laneEl.style.width = `${170 + width}px`;
+
+      const label = document.createElement("div");
+      label.className = "lane-label";
+      label.textContent = `${lane.agent_id} (${lane.agent_role})`;
+      laneEl.appendChild(label);
+
+      const laneEvents = data.events.filter(e => e.agent_id === lane.agent_id);
+      for (const e of laneEvents) {
+        const bar = document.createElement("div");
+        bar.className = `event ${e.status}`;
+        bar.style.left = `${170 + Math.floor(e.start_ms * pxPerMs)}px`;
+        bar.style.width = `${Math.max(36, Math.floor(e.duration_ms * pxPerMs))}px`;
+        bar.title = `Scenario ${e.scenario_id} | what=${e.what} | where=${e.where} | why=${e.why}`;
+        bar.textContent = `${e.scenario_id} ${e.what}`;
+        laneEl.appendChild(bar);
+      }
+
+      timeline.appendChild(laneEl);
+    }
+
+    const playhead = document.createElement("div");
+    playhead.className = "playhead";
+    playhead.style.animationDuration = `${Math.max(6, data.duration_ms / 800)}s`;
+    timeline.appendChild(playhead);
+
+    for (const e of data.events) {
+      const row = document.createElement("div");
+      row.className = "list-row";
+      row.textContent = `${e.scenario_id} | ${e.agent_id} | ${e.status} | what=${e.what} | where=${e.where} | why=${e.why}`;
+      eventList.appendChild(row);
+    }
+
+    const roundMs = Math.max(1, Number(data.round_minutes || 10)) * 60 * 1000;
+    const halfMs = Math.floor(roundMs / 2);
+    const finalThreeMs = 3 * 60 * 1000;
+    const cueState = {
+      start: false,
+      half: false,
+      finalThree: false,
+      buzzer: false,
+      lastFinalPulseSec: -1
+    };
+
+    let audioCtx = null;
+    let soundEnabled = false;
+    function ensureAudio() {
+      if (!audioCtx) {
+        const Ctx = window.AudioContext || window.webkitAudioContext;
+        if (!Ctx) return false;
+        audioCtx = new Ctx();
+      }
+      return true;
+    }
+    function beep(freq, durationMs, gainVal = 0.06) {
+      if (!soundEnabled || !audioCtx) return;
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.type = "sine";
+      osc.frequency.value = freq;
+      gain.gain.value = gainVal;
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.start();
+      setTimeout(() => osc.stop(), durationMs);
+    }
+    function cueStart() {
+      beep(780, 140); setTimeout(() => beep(920, 160), 180);
+    }
+    function cueHalf() {
+      beep(640, 180); setTimeout(() => beep(640, 180), 240);
+    }
+    function cueFinalThree() {
+      beep(950, 200); setTimeout(() => beep(860, 220), 260); setTimeout(() => beep(950, 260), 560);
+    }
+    function cueBuzzer() {
+      beep(420, 600, 0.08); setTimeout(() => beep(360, 700, 0.08), 640);
+    }
+
+    soundBtn.addEventListener("click", () => {
+      if (ensureAudio()) {
+        soundEnabled = true;
+        soundBtn.textContent = "Sound On";
+        soundBtn.disabled = true;
+        cueStart();
+      } else {
+        soundBtn.textContent = "No Audio API";
+        soundBtn.disabled = true;
+      }
+    });
+
+    const startTs = Date.now();
+    function fmt(ms) {
+      const totalSec = Math.max(0, Math.floor(ms / 1000));
+      const mm = Math.floor(totalSec / 60);
+      const ss = totalSec % 60;
+      return `${String(mm).padStart(2, "0")}:${String(ss).padStart(2, "0")}`;
+    }
+
+    function tickCountdown() {
+      const elapsed = Date.now() - startTs;
+      const remaining = Math.max(0, roundMs - elapsed);
+      countdownClock.textContent = fmt(remaining);
+
+      if (!cueState.start) {
+        cueState.start = true;
+        if (soundEnabled) cueStart();
+      }
+
+      if (!cueState.half && remaining <= halfMs) {
+        cueState.half = true;
+        countdownLabel.textContent = "Halfway. Focus and ship.";
+        if (soundEnabled) cueHalf();
+      }
+
+      if (!cueState.finalThree && remaining <= finalThreeMs) {
+        cueState.finalThree = true;
+        countdown.classList.add("urgent");
+        countdownLabel.textContent = "Final 3 minutes. Wrap up now.";
+        if (soundEnabled) cueFinalThree();
+      }
+
+      if (remaining <= finalThreeMs && remaining > 0) {
+        const secLeft = Math.floor(remaining / 1000);
+        if (secLeft % 30 === 0 && secLeft !== cueState.lastFinalPulseSec) {
+          cueState.lastFinalPulseSec = secLeft;
+          if (soundEnabled) beep(1100, 90, 0.05);
+        }
+      }
+
+      if (!cueState.buzzer && remaining <= 0) {
+        cueState.buzzer = true;
+        countdown.classList.add("urgent");
+        countdownLabel.textContent = "Buzzer. Submit what you have.";
+        if (soundEnabled) cueBuzzer();
+      }
+      requestAnimationFrame(tickCountdown);
+    }
+    requestAnimationFrame(tickCountdown);
+  </script>
+</body>
+</html>
