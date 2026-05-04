@@ -45,6 +45,10 @@ Primary design source:
 ```bash
 cd /Users/jamestunick/Applications/xrA1-swarm-codemini
 
+# 0) Verify branch lock guardrails are active (must pass)
+git config --local core.hooksPath .githooks
+./.githooks/verify_branch_lock.sh
+
 # 1) Bootstrap round
 python3 evaluation/scripts/bootstrap_faceoff_round.py --name live-sim-faceoff
 ROUND_DIR=$(ls -1dt evaluation/faceoff_rounds/*_live-sim-faceoff | head -n 1)

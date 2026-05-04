@@ -4,13 +4,29 @@ set -euo pipefail
 remote_name="${1:-origin}"
 remote_url="${2:-unknown}"
 blocked=0
+protected_refs=("refs/heads/main" "refs/heads/master")
+
+is_protected_ref() {
+  local ref="$1"
+  local protected
+  for protected in "${protected_refs[@]}"; do
+    if [ "$ref" = "$protected" ]; then
+      return 0
+    fi
+  done
+  return 1
+}
 
 while read -r local_ref local_sha remote_ref remote_sha; do
   # Skip empty lines (defensive)
   [ -z "${local_ref:-}" ] && continue
 
-  if [ "$remote_ref" = "refs/heads/main" ] || [ "$remote_ref" = "refs/heads/master" ]; then
-    echo "BLOCKED: push to protected branch '$remote_ref' is disabled in this repo." >&2
+  if is_protected_ref "$remote_ref"; then
+    if [ "${local_ref:-}" = "(delete)" ]; then
+      echo "BLOCKED: deleting protected branch '$remote_ref' is disabled in this repo." >&2
+    else
+      echo "BLOCKED: push to protected branch '$remote_ref' is disabled in this repo." >&2
+    fi
     echo "Remote: $remote_name ($remote_url)" >&2
     echo "Allowed: push to non-main branches only (e.g., codemini-isolated)." >&2
     blocked=1
