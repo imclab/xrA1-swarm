@@ -23,6 +23,11 @@ Token rules:
 - do not generate nonessential artifacts or commentary
 - prefer fewer calls, fewer lines, fewer tokens
 
+Hook scope:
+- check `.claude/hooks` and `.claude/settings.json`
+- check `.githooks`
+- check any repo-local Codex/Gemini wrappers, shell scripts, Python scripts, or scheduled launch daemons if they exist
+
 Launch:
 ```bash
 cd /Users/jamestunick/Applications/xrA1-swarm-codemini && \

@@ -132,6 +132,10 @@ Use this brief when the goal is rapid prototype speed, not a full faceoff:
 
 - [Unity prototype launch card](./UNITY_PROTO_LAUNCH_CARD.md)
 
+Hook scope reminder:
+- always check `.claude/hooks`, `.claude/settings.json`, and `.githooks`
+- also inspect any repo-local Codex/Gemini wrappers, shell scripts, Python scripts, or scheduled launch daemons if present
+
 ## Visibility Requirements
 
 For every competitor submission:
