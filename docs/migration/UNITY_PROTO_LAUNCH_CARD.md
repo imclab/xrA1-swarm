@@ -15,6 +15,14 @@ Do not:
 - expand scope before first playable result
 - ask for clarification unless blocked by missing local facts
 
+Token rules:
+- mandatory
+- keep prompts and status updates minimal
+- use the smallest viable model for routine steps
+- do one pass per step unless a hard block appears
+- do not generate nonessential artifacts or commentary
+- prefer fewer calls, fewer lines, fewer tokens
+
 Launch:
 ```bash
 cd /Users/jamestunick/Applications/xrA1-swarm-codemini && \

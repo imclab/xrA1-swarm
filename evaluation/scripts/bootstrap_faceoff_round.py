@@ -76,6 +76,13 @@ Build the most engaging and useful simulation + data visualization that can:
 - Final output must be fully playable by buzzer; incomplete output is scored `0`.
 - Do not defer core gameplay/system integration to final minutes.
 
+## Token Rules
+- Keep outputs short and concrete.
+- Do one pass per task unless blocked.
+- Avoid repeated status pings and unnecessary commentary.
+- Prefer the smallest viable model for routine work.
+- Prefer fewer calls, fewer lines, fewer tokens.
+
 ## Timebox Milestones (Required)
 - By `T-09:00`: set `FINAL_OUTPUT_MANIFEST.json` status to `in_progress` and start a real output artifact.
 - By `T-08:00`: web `index.html` exists and render loop starts.
@@ -165,6 +172,12 @@ def main() -> int:
             "must_capture_innovations": True,
             "must_capture_system_improvements": True,
             "must_feed_history_backlog": True
+        },
+        "token_policy": {
+            "minimal_output_required": True,
+            "economy_tier_default": True,
+            "no_redundant_status_updates": True,
+            "prefer_fewer_calls_fewer_tokens": True
         },
         "bonus_policy": {
             "open_standards_and_open_source_max_points": 10,
