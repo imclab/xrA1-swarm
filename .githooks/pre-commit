@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+branch=$(git rev-parse --abbrev-ref HEAD 2>/dev/null || echo "")
+
+if [ "$branch" = "main" ] || [ "$branch" = "master" ]; then
+  echo "BLOCKED: commits on '$branch' are locked in this repo." >&2
+  echo "Use 'codemini-isolated' (or another non-main branch) instead." >&2
+  exit 1
+fi
+
+exit 0

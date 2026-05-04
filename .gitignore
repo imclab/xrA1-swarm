@@ -17,6 +17,10 @@ production/session-logs/
 # === Internal Planning (not for public) ===
 
 expansions/
+evaluation/runs/*
+evaluation/reports/*
+!evaluation/runs/.gitkeep
+!evaluation/reports/.gitkeep
 
 # === Runtime Artifacts (auto-generated, start empty on fresh clone) ===
 # Created on first use by /consistency-check and /architecture-review

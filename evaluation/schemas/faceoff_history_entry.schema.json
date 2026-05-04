@@ -1,0 +1,72 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://xra1.local/evaluation/faceoff_history_entry.schema.json",
+  "title": "Faceoff History Entry",
+  "type": "object",
+  "required": [
+    "record_version",
+    "recorded_at_utc",
+    "round_id",
+    "winner",
+    "entries"
+  ],
+  "properties": {
+    "record_version": {
+      "type": "integer",
+      "const": 1
+    },
+    "recorded_at_utc": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "round_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "winner": {
+      "type": "string",
+      "minLength": 1
+    },
+    "entries": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "rank",
+          "competitor",
+          "score_0_to_100",
+          "success_rate_pct",
+          "speed_tasks_per_hour",
+          "avg_tokens_per_task",
+          "avg_quality_0_to_5"
+        ],
+        "properties": {
+          "rank": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "competitor": {
+            "type": "string"
+          },
+          "score_0_to_100": {
+            "type": "number"
+          },
+          "success_rate_pct": {
+            "type": "number"
+          },
+          "speed_tasks_per_hour": {
+            "type": "number"
+          },
+          "avg_tokens_per_task": {
+            "type": "number"
+          },
+          "avg_quality_0_to_5": {
+            "type": "number"
+          }
+        },
+        "additionalProperties": true
+      }
+    }
+  },
+  "additionalProperties": false
+}

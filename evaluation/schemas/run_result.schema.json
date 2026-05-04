@@ -1,0 +1,134 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://xra1.local/evaluation/run_result.schema.json",
+  "title": "Swarm Run Result",
+  "description": "One scenario-level result row for baseline and A/B swarm evaluation.",
+  "type": "object",
+  "required": [
+    "record_version",
+    "recorded_at_utc",
+    "run_id",
+    "scenario_id",
+    "category",
+    "status",
+    "duration_ms",
+    "tokens_prompt",
+    "tokens_completion",
+    "tokens_cached",
+    "tokens_total",
+    "retries",
+    "human_interventions"
+  ],
+  "properties": {
+    "record_version": {
+      "type": "integer",
+      "const": 1
+    },
+    "recorded_at_utc": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "run_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "scenario_id": {
+      "type": "string",
+      "pattern": "^S[0-9]{3}$"
+    },
+    "category": {
+      "type": "string",
+      "minLength": 1
+    },
+    "difficulty": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "small",
+        "medium",
+        "large",
+        null
+      ]
+    },
+    "provider": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "model": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pass",
+        "fail",
+        "error",
+        "blocked",
+        "skipped"
+      ]
+    },
+    "duration_ms": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "tokens_prompt": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "tokens_completion": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "tokens_cached": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "tokens_total": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "cost_usd": {
+      "type": [
+        "number",
+        "null"
+      ],
+      "minimum": 0
+    },
+    "retries": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "human_interventions": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "quality_score": {
+      "type": [
+        "number",
+        "null"
+      ],
+      "minimum": 0,
+      "maximum": 5
+    },
+    "error_type": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "notes": {
+      "type": [
+        "string",
+        "null"
+      ]
+    }
+  },
+  "additionalProperties": false
+}

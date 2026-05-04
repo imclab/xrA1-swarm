@@ -1,0 +1,102 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://xra1.local/evaluation/agent_event.schema.json",
+  "title": "Agent Event",
+  "description": "One normalized event for agent activity tracking.",
+  "type": "object",
+  "required": [
+    "record_version",
+    "recorded_at_utc",
+    "run_id",
+    "scenario_id",
+    "agent_id",
+    "agent_role",
+    "what",
+    "where",
+    "why",
+    "status",
+    "start_ms",
+    "duration_ms",
+    "tokens_total"
+  ],
+  "properties": {
+    "record_version": {
+      "type": "integer",
+      "const": 1
+    },
+    "recorded_at_utc": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "run_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "scenario_id": {
+      "type": "string",
+      "pattern": "^S[0-9]{3}$"
+    },
+    "agent_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "agent_role": {
+      "type": "string",
+      "minLength": 1
+    },
+    "what": {
+      "type": "string",
+      "minLength": 1
+    },
+    "where": {
+      "type": "string",
+      "minLength": 1
+    },
+    "why": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "started",
+        "running",
+        "completed",
+        "failed",
+        "blocked",
+        "skipped"
+      ]
+    },
+    "start_ms": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "duration_ms": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "tokens_prompt": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "tokens_completion": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "tokens_cached": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "tokens_total": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "notes": {
+      "type": [
+        "string",
+        "null"
+      ]
+    }
+  },
+  "additionalProperties": false
+}

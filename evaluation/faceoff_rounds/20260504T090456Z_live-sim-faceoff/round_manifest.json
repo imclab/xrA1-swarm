@@ -1,0 +1,34 @@
+{
+  "competitors": [
+    "codex",
+    "gemini",
+    "ollama"
+  ],
+  "created_at_utc": "2026-05-04T09:04:56.053415+00:00",
+  "execution_order": [
+    "codex",
+    "gemini",
+    "ollama"
+  ],
+  "objective": "Live simulation faceoff with transparent what/when/where/why playback.",
+  "provider_policy": {
+    "allowed_examples": [
+      "codex",
+      "gemini",
+      "ollama",
+      "lmstudio"
+    ],
+    "claude_blocked": true
+  },
+  "round_id": "20260504T090456Z_live-sim-faceoff",
+  "scoring_weights": {
+    "efficiency_tokens_inverse": 0.15,
+    "engagement_usefulness": 0.1,
+    "intelligence_quality": 0.2,
+    "novelty": 0.1,
+    "observability_clarity": 0.1,
+    "reliability_success_rate": 0.2,
+    "speed_tasks_per_hour": 0.15
+  },
+  "time_limit_minutes": 10
+}
