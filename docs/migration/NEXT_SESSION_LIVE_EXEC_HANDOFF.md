@@ -11,11 +11,17 @@ Status: `ready for live task execution`
 
 ## Immediate Mission (Next Session)
 
-Run a live faceoff where competitors build simulation + visualization systems in
-`<= 10 minutes` each, with complete `what/when/where/why` traceability and
-cross-platform design targets.
+Build one fast Unity-first prototype round. The only goal is a playable Unity
+result with a minimal web companion if time remains.
 
 Execution order (default): `codex -> gemini -> ollama`.
+
+Success definition:
+- one runnable Unity prototype
+- one runnable web preview if feasible
+- no mid-task clarification loops
+- no extra design detours
+- final output usable before the buzzer
 
 ## Model Efficiency Rules (Mandatory)
 
@@ -39,6 +45,28 @@ Provider examples:
 
 Primary design source:
 - [SIM_FACEOFF_SEED_SPEC.md](/Users/jamestunick/Applications/xrA1-swarm-codemini/docs/migration/SIM_FACEOFF_SEED_SPEC.md)
+
+## Why The Last Run Failed
+
+The confusion came from spec overload, not from needing more check-ins.
+
+Root causes:
+1. Too many simultaneous goals were in play: simulation faceoff, playback system,
+   leaderboard, social assets, branch safety, metrics, and cross-platform parity.
+2. The prompt treated orchestration artifacts as if they were equivalent to the
+   actual deliverable, so the system spent effort organizing work instead of
+   shipping a Unity prototype.
+3. Success was spread across many outputs instead of one primary acceptance
+   gate. That encouraged busywork and delayed concrete prototype progress.
+4. The round asked for frequent visibility, which is useful for monitoring, but
+   not as a substitute for a tighter objective.
+
+What fixes it:
+- one primary deliverable
+- one primary acceptance gate
+- one owner per task slice
+- no repeated status chasing unless the build is blocked
+- no scope expansion until the first playable result exists
 
 ## Required Command Sequence
 
@@ -97,6 +125,18 @@ python3 evaluation/scripts/validate_final_outputs.py \
   --round-dir "$ROUND_DIR" \
   --checkpoint final
 ```
+
+## Tighter Unity-First Launch Brief
+
+Use this brief when the goal is rapid prototype speed, not a full faceoff:
+
+- Build a playable Unity prototype first.
+- Keep the web layer optional and minimal.
+- Do not wait for check-ins to continue.
+- Do not ask the user for extra detail unless the build is blocked by missing
+  information that cannot be inferred locally.
+- Prefer one clear scene, one interaction loop, and one visible success state.
+- Stop when there is a runnable artifact, then document the delta.
 
 ## Visibility Requirements
 
